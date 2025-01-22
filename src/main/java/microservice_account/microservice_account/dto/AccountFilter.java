@@ -22,7 +22,7 @@ public class AccountFilter {
 
     private String country;
     private String city;
-    // со statusCode так же ждем фронт
+
     private String statusCode;
 
     private Boolean deleted;

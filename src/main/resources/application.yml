@@ -1,3 +1,14 @@
+server:
+  port: 8082
+
+app:
+  kafka:
+    kafkaUpdateUserTopic: "update_user_topic"
+    kafkaRegisterTopic: "REGISTER_TOP"
+    kafkaMessageGroupId: "kafka-message-group-id"
+  integration:
+    auth-url: http://localhost:8080
+
 spring:
   main:
     allow-circular-references: true
@@ -13,3 +24,5 @@ spring:
     hikari:
       schema: app_schema
       connection-init-sql: CREATE SCHEMA IF NOT EXISTS app_schema
+  kafka:
+    bootstrap-servers: localhost:9092

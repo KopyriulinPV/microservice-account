@@ -3,8 +3,10 @@ package microservice_account.microservice_account.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import microservice_account.microservice_account.model.Role;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -45,5 +47,7 @@ public class AccountMeDto {
     private Boolean deleted;
     private Boolean blocked;
     private Boolean isOnline;
+
+    private Set<Role> roles;
 
 }

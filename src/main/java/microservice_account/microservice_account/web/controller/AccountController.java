@@ -1,5 +1,6 @@
 package microservice_account.microservice_account.web.controller;
 
+import events.UpdateUserEvent;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,11 +11,15 @@ import lombok.RequiredArgsConstructor;
 import microservice_account.microservice_account.dto.*;
 import microservice_account.microservice_account.mapper.AccountMapper;
 import microservice_account.microservice_account.service.AccountService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.UUID;
 
 
@@ -28,38 +33,59 @@ public class AccountController {
 
     private final AccountMapper accountMapper;
 
-    /*@Operation(summary = "Получение информации о текущем аккаунте")
+    @Value("${app.kafka.kafkaUpdateUserTopic}")
+    private String kafkaUpdateUserTopic;
+
+    private final KafkaTemplate<String, UpdateUserEvent> kafkaTemplateUpdateUser;
+
+
+    @Operation(summary = "Получение информации о текущем аккаунте")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = AccountMeDto.class))
             })
     })
     @GetMapping("/me")
-    public ResponseEntity<AccountMeDto> getCurrentAccount() {
-        return new ResponseEntity<>(new AccountMeDto(), HttpStatus.OK);
-    }*/
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
+    public ResponseEntity<AccountMeDto> getCurrentAccount(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        UUID accountId = UUID.fromString(userDetails.getUsername());
+        return new ResponseEntity<>(accountMapper.accountToAccountMeDto(
+                accountService.getAccountById(accountId)), HttpStatus.OK);
+    }
 
-    /*@Operation(summary = "Обновление аккаунта")
+
+    @Operation(summary = "Обновление аккаунта")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = AccountMeDto.class))
             })
     })
     @PutMapping("/me")
-    public ResponseEntity<AccountMeDto> updateAccountMe(@RequestBody AccountUpdateDto accountUpdateDto) {
-        // Логика обновления аккаунта
-        // ...
-        return new ResponseEntity<>(new AccountMeDto(), HttpStatus.OK);
-    }*/
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
+    public ResponseEntity<AccountMeDto> updateAccountMe(Authentication authentication, @RequestBody AccountUpdateDto accountUpdateDto) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        UUID accountId = UUID.fromString(userDetails.getUsername());
+        AccountMeDto accountMeDto = accountMapper
+                .accountToAccountMeDto(accountService.
+                        update(accountMapper
+                                .AccountUpdateDtoToAccount(accountId, accountUpdateDto)));
+        System.out.println(accountMapper.AccountMeDtoToUpdateUserEvent(accountMeDto).getId());
+        kafkaTemplateUpdateUser.send(kafkaUpdateUserTopic, accountMapper.AccountMeDtoToUpdateUserEvent(accountMeDto));
 
-    /*@Operation(summary = "Пометить текущий аккаунт как удалённый")
+        return new ResponseEntity<>(accountMeDto, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Пометить текущий аккаунт как удалённый")
     @ApiResponse(responseCode = "200", description = "OK")
     @DeleteMapping("/me")
-    public ResponseEntity<Void> markAccountAsDeleted() {
-        // Логика пометки аккаунта как удалённого
-        // ...
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
+    public ResponseEntity<Void> markAccountAsDeleted(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        UUID accountId = UUID.fromString(userDetails.getUsername());
+        accountService.markAccountAsDeletedById(accountId);
         return new ResponseEntity<>(HttpStatus.OK);
-    }*/
+    }
 
 
 
@@ -93,8 +119,6 @@ public class AccountController {
                         accountMapper.accountMeDtoToAccount(accountMeDto))), HttpStatus.CREATED);
     }
 
-    ///////!!!!!!!!!!!!!!!!! Статус код это про друзья или нет
-    // /////!!!!!!!!!!!!!!!!! //// Жду frontend, с ним будет понятнее про StatusCode
     @Operation(summary = "'Прием UUID от сервиса Dialogs через Webclient о завершении сессии вебсокета у аккаунта: как флаг перехода в статус offline'")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "UUID успешно обработан", content = {
@@ -147,19 +171,13 @@ public class AccountController {
     }
 
     @Operation(summary = "Глобальный поиск аккаунта по ключевым словам")
-    @ApiResponses(value = {
-            /*@ApiResponse(responseCode = "200", description = "OK", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(type = "object", additionalProperties = @Schema(type = "object")))
-            })*/
-    })
     @GetMapping("/search")
-
     public ResponseEntity<AccountListResponse> searchAccounts(AccountFilter accountFilter) {
         return new ResponseEntity<>(accountMapper.accountListToAccountListResponse(accountService.searchAccounts(accountFilter)), HttpStatus.OK);
     }
 
     //// Жду frontend
-   /* @Operation(summary = "Поиск аккаунта по статус-коду отношений в микросервисе Friends. Этот контроллер ссылается на глобальный поиск аккаунтов /search, так как в нем учтен statusCode.")
+   /*@Operation(summary = "Поиск аккаунта по статус-коду отношений в микросервисе Friends. Этот контроллер ссылается на глобальный поиск аккаунтов /search, так как в нем учтен statusCode.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
                     @Content(mediaType = "application/json", schema = @Schema(type = "object", additionalProperties = @Schema(type = "object")))

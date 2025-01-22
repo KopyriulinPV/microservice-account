@@ -25,4 +25,5 @@ public interface AccountService {
 
     List<Account> searchAccounts(AccountFilter accountFilter);
 
+    Account update(Account account);
 }

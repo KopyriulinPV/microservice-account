@@ -1,15 +1,16 @@
 package microservice_account.microservice_account.mapper;
 
-import microservice_account.microservice_account.dto.AccountDataDto;
-import microservice_account.microservice_account.dto.AccountListResponse;
-import microservice_account.microservice_account.dto.AccountMeDto;
-import microservice_account.microservice_account.dto.AccountResponseDto;
+import events.RegistrationEvent;
+import events.UpdateUserEvent;
+import microservice_account.microservice_account.dto.*;
 import microservice_account.microservice_account.model.Account;
+import microservice_account.microservice_account.model.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
-import java.util.List;
-import java.util.stream.Collectors;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AccountMapper {
@@ -22,9 +23,26 @@ public interface AccountMapper {
 
     AccountDataDto accountToAccountDataDto(Account account);
 
+    Account AccountUpdateDtoToAccount(UUID id, AccountUpdateDto accountUpdateDto);
+
+    UpdateUserEvent AccountMeDtoToUpdateUserEvent(AccountMeDto accountMeDto);
+
     default AccountListResponse accountListToAccountListResponse(List<Account> accountList) {
         AccountListResponse response = new AccountListResponse();
         response.setNews(accountList.stream().map(this::accountToAccountResponseDto).collect(Collectors.toList()));
         return response;
+    }
+
+    default Account registrationEventToAccount(RegistrationEvent registrationEvent) {
+        Account account = new Account();
+        account.setId(UUID.fromString(registrationEvent.getId()));
+        account.setFirstName(registrationEvent.getFirstName());
+        account.setLastName(registrationEvent.getLastName());
+        account.setEmail(registrationEvent.getEmail());
+        account.setPassword(registrationEvent.getPassword());
+        account.setRoles(registrationEvent.getRoles().stream()
+                .map(Role::fromString)
+                .collect(Collectors.toSet()));
+        return account;
     }
 }

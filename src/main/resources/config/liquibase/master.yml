@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
-      id: 1.0.0-1
-      author: liquibase-generator
+      id: 1
+      author: Peter
       changes:
         - createTable:
             tableName: account
@@ -78,3 +78,32 @@ databaseChangeLog:
               - column:
                   name: is_online
                   type: boolean
+
+  - changeSet:
+      id: 2
+      author: Peter
+      changes:
+        - createTable:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: roles
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 3
+      author: Peter
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: users_roles
+            baseColumnNames: id
+            referencedTableName: account
+            referencedColumnNames: id
+            constraintName: fk_users_roles_account

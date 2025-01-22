@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +22,7 @@ public class AccountResponseDto {
 //    @Email
     private String email;
     private String password;
-    private String role;
+    private Set<String> roles;
     private String phone;
     private String photo;
     private String profileCover;

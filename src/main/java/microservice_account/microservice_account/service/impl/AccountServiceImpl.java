@@ -6,11 +6,10 @@ import microservice_account.microservice_account.model.Account;
 import microservice_account.microservice_account.repository.AccountRepository;
 import microservice_account.microservice_account.repository.AccountSpecification;
 import microservice_account.microservice_account.service.AccountService;
+import microservice_account.microservice_account.utils.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -67,4 +66,11 @@ public class AccountServiceImpl implements AccountService {
                         accountFilter.getPageNumber(), accountFilter.getPageSize()
                 )).getContent();
     }
+
+    public Account update(Account account) {
+        Account existedAccount = accountRepository.findById(account.getId()).get();
+        BeanUtils.copyNonNullProperties(account, existedAccount);
+        return accountRepository.save(existedAccount);
+    }
+
 }

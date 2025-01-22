@@ -8,6 +8,7 @@ import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -18,9 +19,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
-
-    /// !!!!!Здесь упущена роль
-
 
     @Id
     @Column(name = "id")
@@ -91,5 +89,11 @@ public class Account {
 
     @Column(name = "is_online")
     private Boolean isOnline;
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "roles", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
 }
