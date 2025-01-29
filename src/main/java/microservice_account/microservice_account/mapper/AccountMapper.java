@@ -7,7 +7,6 @@ import microservice_account.microservice_account.model.Account;
 import microservice_account.microservice_account.model.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
-
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -16,6 +15,7 @@ import java.util.stream.Collectors;
 public interface AccountMapper {
 
     Account accountMeDtoToAccount(AccountMeDto accountMeDto);
+
 
     AccountMeDto accountToAccountMeDto(Account account);
 

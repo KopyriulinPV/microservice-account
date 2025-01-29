@@ -71,7 +71,7 @@ public class AccountController {
                         update(accountMapper
                                 .AccountUpdateDtoToAccount(accountId, accountUpdateDto)));
         System.out.println(accountMapper.AccountMeDtoToUpdateUserEvent(accountMeDto).getId());
-        kafkaTemplateUpdateUser.send(kafkaUpdateUserTopic, accountMapper.AccountMeDtoToUpdateUserEvent(accountMeDto));
+        /*kafkaTemplateUpdateUser.send(kafkaUpdateUserTopic, accountMapper.AccountMeDtoToUpdateUserEvent(accountMeDto));*/
 
         return new ResponseEntity<>(accountMeDto, HttpStatus.OK);
     }

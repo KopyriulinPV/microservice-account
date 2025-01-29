@@ -1,8 +1,6 @@
 package microservice_account.microservice_account.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import microservice_account.microservice_account.model.Role;
 
 import java.time.LocalDateTime;

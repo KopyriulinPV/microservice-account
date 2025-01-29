@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Service
+/*@Service
 @Slf4j
 @RequiredArgsConstructor
 public class StatusServiceListener {
@@ -34,4 +34,4 @@ public class StatusServiceListener {
         accountRepository.save(accountMapper.registrationEventToAccount(registrationEvent));
 
     }
-}
+}*/

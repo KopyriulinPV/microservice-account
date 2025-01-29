@@ -1,9 +1,9 @@
 package microservice_account.microservice_account.dto;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 /*@OrderFilterValid*/
 public class AccountFilter {
