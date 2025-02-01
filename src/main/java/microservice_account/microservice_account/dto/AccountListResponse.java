@@ -1,7 +1,6 @@
 package microservice_account.microservice_account.dto;
 
 import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
 

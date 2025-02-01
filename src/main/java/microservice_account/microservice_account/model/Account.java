@@ -2,12 +2,7 @@ package microservice_account.microservice_account.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
-
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.Set;
 import java.util.UUID;
 

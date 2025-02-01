@@ -5,13 +5,12 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-/*@OrderFilterValid*/
 public class AccountFilter {
 
     private Integer pageSize;
     private Integer pageNumber;
 
-    // не понятно, что за автор, ждем фронта
+    // не понятно, что за автор, ждем фронтенд
     private String author;
 
     private String ids;

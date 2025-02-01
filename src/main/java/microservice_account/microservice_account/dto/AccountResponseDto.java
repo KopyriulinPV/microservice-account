@@ -1,7 +1,6 @@
 package microservice_account.microservice_account.dto;
 
 import lombok.*;
-
 import java.util.Set;
 
 @Data
@@ -11,13 +10,10 @@ public class AccountResponseDto {
 
     private String id;
 
-//    @NotBlank
     private String firstName;
 
-//    @NotBlank
     private String lastName;
 
-//    @Email
     private String email;
     private String password;
     private Set<String> roles;

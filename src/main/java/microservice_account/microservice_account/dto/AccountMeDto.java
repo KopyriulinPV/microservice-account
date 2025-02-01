@@ -2,7 +2,6 @@ package microservice_account.microservice_account.dto;
 
 import lombok.*;
 import microservice_account.microservice_account.model.Role;
-
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
@@ -14,17 +13,12 @@ public class AccountMeDto {
 
     private UUID id;
 
-    /*@NotBlank*/
     private String firstName;
 
-    /*@NotBlank*/
     private String lastName;
 
-    /*@Email*/
-    /*@NotBlank*/
     private String email;
 
-    /*@NotBlank*/
     private String password;
 
     private String phone;
