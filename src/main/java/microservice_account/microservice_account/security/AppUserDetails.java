@@ -13,10 +13,6 @@ public class AppUserDetails implements UserDetails {
 
     private final Account account;
 
-    /*public UUID getId() {
-        return account.getId();
-    }*/
-
     public String getEmail() {
         return account.getEmail();
     }

@@ -176,7 +176,6 @@ public class AccountController {
         return new ResponseEntity<>(accountMapper.accountListToAccountListResponse(accountService.searchAccounts(accountFilter)), HttpStatus.OK);
     }
 
-    //// Жду frontend
    /*@Operation(summary = "Поиск аккаунта по статус-коду отношений в микросервисе Friends. Этот контроллер ссылается на глобальный поиск аккаунтов /search, так как в нем учтен statusCode.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -187,8 +186,7 @@ public class AccountController {
     public ResponseEntity<Map<String, Object>> searchByStatusCode(
             @Parameter(description = "Все параметры поиска в виде JSON объекта") @RequestParam Map<String, String> allParams
     ) {
-        // Логика поиска аккаунтов по статус коду
-        // ...
+
         return new ResponseEntity<>(accountService.searchAccounts(allParams), HttpStatus.OK);
     }*/
 }
