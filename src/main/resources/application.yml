@@ -26,20 +26,20 @@ spring:
       connection-init-sql: CREATE SCHEMA IF NOT EXISTS app_schema
   kafka:
     bootstrap-servers: ${EVENTKAFKA_BOOTSTRAP-SERVERS:localhost:9092}
-  cloud:
-    discovery:
-      enabled: true
-    config:
-      enabled: false
-    service-registry:
-      auto-registration:
-        enabled: true
+  #cloud:
+    #discovery:
+      #enabled: true
+    #config:
+      #enabled: false
+    #service-registry:
+      #auto-registration:
+        #enabled: true
 
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICE-URL:http://localhost:8761/eureka/}
-    register-with-eureka: true
-    fetch-registry: true
-  instance:
-    instanceId: ${spring.cloud.client.ip-address}:${server.port}
+#eureka:
+  #client:
+    #service-url:
+      #defaultZone: ${EUREKA_CLIENT_SERVICE-URL:http://localhost:8761/eureka/}
+    #register-with-eureka: true
+    #fetch-registry: true
+  #instance:
+    #instanceId: ${spring.cloud.client.ip-address}:${server.port}
