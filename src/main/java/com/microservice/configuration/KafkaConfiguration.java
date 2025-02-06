@@ -43,6 +43,7 @@ public class KafkaConfiguration {
         return new KafkaTemplate<>(kafkaMessageProducerFactory);
     }
 
+
     @Bean
     public ConsumerFactory<String, RegistrationEvent> kafkaMessageConsumerFactory(ObjectMapper objectMapper) {
         Map<String, Object> config = new HashMap<>();
