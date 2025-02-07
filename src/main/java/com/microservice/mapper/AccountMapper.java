@@ -1,11 +1,9 @@
 package com.microservice.mapper;
 
-
+import com.example.RegistrationEvent;
 import com.microservice.dto.*;
 import com.microservice.model.Account;
 import com.microservice.model.Role;
-import events.RegistrationEvent;
-import events.UpdateUserEvent;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import java.util.List;
@@ -26,7 +24,7 @@ public interface AccountMapper {
 
     Account AccountUpdateDtoToAccount(UUID id, AccountUpdateDto accountUpdateDto);
 
-    UpdateUserEvent AccountMeDtoToUpdateUserEvent(AccountMeDto accountMeDto);
+    RegistrationEvent AccountMeDtoToRegistrationEvent(AccountMeDto accountMeDto);
 
     default AccountListResponse accountListToAccountListResponse(List<Account> accountList) {
         AccountListResponse response = new AccountListResponse();

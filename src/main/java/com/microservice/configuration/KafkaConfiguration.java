@@ -2,8 +2,7 @@ package com.microservice.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import events.RegistrationEvent;
-import events.UpdateUserEvent;
+
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -18,7 +17,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+/*@Configuration
 public class KafkaConfiguration {
 
     @Value("${spring.kafka.bootstrap-servers}")
@@ -68,5 +67,5 @@ public class KafkaConfiguration {
         return factory;
     }
 
-}
+}*/
 

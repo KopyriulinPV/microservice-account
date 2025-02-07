@@ -1,7 +1,6 @@
 package com.microservice.web.controller;
 
 
-import events.UpdateUserEvent;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,11 +11,9 @@ import lombok.RequiredArgsConstructor;
 import com.microservice.dto.*;
 import com.microservice.mapper.AccountMapper;
 import com.microservice.service.AccountService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,10 +31,10 @@ public class AccountController {
 
     private final AccountMapper accountMapper;
 
-    @Value("${app.kafka.kafkaUpdateUserTopic}")
-    private String kafkaUpdateUserTopic;
+    /*private final UpdateAccountService updateAccountService;*/
 
-    private final KafkaTemplate<String, UpdateUserEvent> kafkaTemplateUpdateUser;
+   /* @Value("${app.kafka.kafkaUpdateUserTopic}")
+    private String kafkaUpdateUserTopic;*/
 
 
     @Operation(summary = "Получение информации о текущем аккаунте")
@@ -71,8 +68,8 @@ public class AccountController {
                 .accountToAccountMeDto(accountService.
                         update(accountMapper
                                 .AccountUpdateDtoToAccount(accountId, accountUpdateDto)));
-        System.out.println(accountMapper.AccountMeDtoToUpdateUserEvent(accountMeDto).getId());
-        kafkaTemplateUpdateUser.send(kafkaUpdateUserTopic, accountMapper.AccountMeDtoToUpdateUserEvent(accountMeDto));
+
+        /*updateAccountService.sendUpdateAccountEvent(accountMapper.AccountMeDtoToRegistrationEvent(accountMeDto));*/
 
         return new ResponseEntity<>(accountMeDto, HttpStatus.OK);
     }
@@ -87,9 +84,6 @@ public class AccountController {
         accountService.markAccountAsDeletedById(accountId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-
 
 
     @Operation(summary = "Получение аккаунта по email")

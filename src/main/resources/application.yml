@@ -3,7 +3,7 @@ server:
 
 app:
   kafka:
-    kafkaUpdateUserTopic: "update_user_topic"
+    kafkaUpdateUserTopic: "UPDATE_USER_TOPIC"
     kafkaRegisterTopic: "REGISTER_TOP"
     kafkaMessageGroupId: "kafka-message-group-id"
   integration:

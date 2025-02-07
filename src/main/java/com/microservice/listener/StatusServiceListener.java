@@ -2,7 +2,7 @@ package com.microservice.listener;
 
 import com.microservice.mapper.AccountMapper;
 import com.microservice.repository.AccountRepository;
-import events.RegistrationEvent;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Service
+/*@Service
 @Slf4j
 @RequiredArgsConstructor
 public class StatusServiceListener {
@@ -34,4 +34,4 @@ public class StatusServiceListener {
         accountRepository.save(accountMapper.registrationEventToAccount(registrationEvent));
 
     }
-}
+}*/
