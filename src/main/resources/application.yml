@@ -35,11 +35,11 @@ spring:
       auto-registration:
         enabled: true
 
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICE-URL:http://localhost:8761/eureka/}
-    register-with-eureka: true
-    fetch-registry: true
-  instance:
-    instanceId: ${spring.cloud.client.ip-address}:${server.port}
+#eureka:
+  #client:
+    #service-url:
+      #defaultZone: ${EUREKA_CLIENT_SERVICE-URL:http://localhost:8761/eureka/}
+    #register-with-eureka: true
+    #fetch-registry: true
+  #instance:
+    #instanceId: ${spring.cloud.client.ip-address}:${server.port}
