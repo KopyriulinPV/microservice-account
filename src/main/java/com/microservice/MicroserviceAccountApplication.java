@@ -27,4 +27,6 @@ sudo docker run --network microservice-network -e SPRING_DATASOURCE_URL=jdbc:pos
 ip: 89.111.155.206
 login: admin
 pass: ZfsVks6
+
+http://89.111.155.206
 */

@@ -25,7 +25,13 @@ public class RegistrationUserListener {
 
     private final AccountMapper accountMapper;
 
+    /*@KafkaListener(topics = "${app.kafka.kafkaRegisterTopic}",
+            containerFactory = "kafkaRegistrationConcurrentKafkaListenerContainerFactory")*/
+
+
+
     @KafkaListener(topics = "${app.kafka.kafkaRegisterTopic}",
+            groupId = "${app.kafka.kafkaMessageGroupId}",
             containerFactory = "kafkaRegistrationConcurrentKafkaListenerContainerFactory")
     private void listen(@Payload RegistrationEvent registrationEvent,
                         @Header(value = KafkaHeaders.RECEIVED_KEY, required = false) UUID key,
