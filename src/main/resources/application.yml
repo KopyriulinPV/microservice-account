@@ -6,8 +6,8 @@ app:
     kafkaUpdateUserTopic: "UPDATE_USER_TOPIC"
     kafkaRegisterTopic: "REGISTER_TOP"
     kafkaMessageGroupId: "kafka-message-group-id"
-  integration:
-    auth-url: ${EVENTKAFKA_BOOTSTRAP-SERVERS:http://localhost:8080}
+  #integration:
+    #auth-url: ${TOKEN_VALIDATION_URL:http://localhost:8080}
 
 spring:
   main:
