@@ -12,6 +12,8 @@ app:
     server: gateway-eureka-microservice
 
 spring:
+  application:
+    name: microservice-account
   main:
     allow-circular-references: true
   liquibase:
