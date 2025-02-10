@@ -64,6 +64,7 @@ public class AccountController {
     public ResponseEntity<AccountMeDto> updateAccountMe(Authentication authentication, @RequestBody AccountUpdateDto accountUpdateDto) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         UUID accountId = UUID.fromString(userDetails.getUsername());
+        System.out.println(accountId);
         AccountMeDto accountMeDto = accountMapper
                 .accountToAccountMeDto(accountService.
                         update(accountMapper
