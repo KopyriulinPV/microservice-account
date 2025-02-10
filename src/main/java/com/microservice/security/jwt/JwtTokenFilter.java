@@ -33,9 +33,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+
         try {
             String token = getToken(request);
             /*webClientSender.validateAuth(token).block()*/
+
             if(token != null && true) {
 
                 String[] parts = token.split("\\.");
