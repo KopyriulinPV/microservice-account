@@ -46,6 +46,7 @@ public class AccountController {
     @GetMapping("/me")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<AccountMeDto> getCurrentAccount(Authentication authentication) {
+
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         UUID accountId = UUID.fromString(userDetails.getUsername());
         return new ResponseEntity<>(accountMapper.accountToAccountMeDto(
