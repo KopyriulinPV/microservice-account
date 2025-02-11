@@ -48,3 +48,7 @@ eureka:
   instance:
     instanceId: ${spring.cloud.client.ip-address}:${server.port}
     prefer-ip-address: true
+
+logging:
+  level:
+    root: ERROR
