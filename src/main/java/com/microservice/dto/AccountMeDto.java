@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AccountMeDto {
 
-    private UUID id;
+    private String id;
 
     private String firstName;
 
@@ -28,18 +28,18 @@ public class AccountMeDto {
     private String city;
     private String country;
     private String statusCode;
-    private LocalDateTime regDate;
-    private LocalDateTime birthDate;
+    private String regDate;
+    private String birthDate;
     private String messagePermission;
-    private LocalDateTime lastOnlineTime;
+    private String lastOnlineTime;
     private String emojiStatus;
-    private LocalDateTime createdOn;
-    private LocalDateTime updatedOn;
-    private LocalDateTime deletionTimestamp;
+    private String createdOn;
+    private String updatedOn;
+    private String deletionTimestamp;
     private Boolean deleted;
     private Boolean blocked;
     private Boolean isOnline;
 
-    private Set<Role> roles;
+    private Set<String> roles;
 
 }

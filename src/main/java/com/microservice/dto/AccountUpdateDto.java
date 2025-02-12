@@ -11,7 +11,7 @@ public class AccountUpdateDto {
 
     private String firstName;
     private String lastName;
-    private LocalDateTime birthDate;
+    private String birthDate;
     private String phone;
     private String about;
     private String city;
