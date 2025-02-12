@@ -62,18 +62,18 @@ public class AccountController {
     })
     @PutMapping("/me")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<AccountMeDto> updateAccountMe(Authentication authentication, @RequestBody AccountUpdateDto accountUpdateDto) {
+    public ResponseEntity<AccountMeDto> updateAccountMe(Authentication authentication, @RequestBody AccountUpdateDto2 accountUpdateDto) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         UUID accountId = UUID.fromString(userDetails.getUsername());
-        System.out.println(accountId);
-        AccountMeDto accountMeDto = accountMapper
+        System.out.println("222222222222222222222222222222222222222222222222222222222222222222222222222222222");
+        /*AccountMeDto accountMeDto = accountMapper
                 .accountToAccountMeDto(accountService.
                         update(accountMapper
-                                .AccountUpdateDtoToAccount(accountId, accountUpdateDto)));
+                                .AccountUpdateDtoToAccount(accountId, accountUpdateDto)));*/
 
         /*updateAccountService.sendUpdateAccountEvent(accountMapper.AccountMeDtoToRegistrationEvent(accountMeDto));*/
-
-        return new ResponseEntity<>(accountMeDto, HttpStatus.OK);
+//поправь ниже
+        return new ResponseEntity<>(new AccountMeDto(), HttpStatus.OK);
     }
 
     @Operation(summary = "Пометить текущий аккаунт как удалённый")
