@@ -33,14 +33,36 @@ public interface AccountMapper {
         accountMeDto.setCity(account.getCity());
         accountMeDto.setCountry(account.getCountry());
         accountMeDto.setStatusCode(account.getStatusCode());
-        accountMeDto.setRegDate(account.getRegDate().toString());
-        accountMeDto.setBirthDate(account.getBirthDate().toString());
+
+        String regDateString = (account.getRegDate() != null) ? account.getRegDate().toString()
+                : " ";
+        accountMeDto.setRegDate(regDateString);
+
+        String birthDateString = (account.getBirthDate() != null) ? account.getBirthDate().toString()
+                : " ";
+        accountMeDto.setBirthDate(birthDateString);
+
+
         accountMeDto.setMessagePermission(account.getMessagePermission());
-        accountMeDto.setLastOnlineTime(account.getLastOnlineTime().toString());
+
+        String lastOnlineTimeString = (account.getLastOnlineTime() != null) ? account.getLastOnlineTime().toString()
+                : " ";
+        accountMeDto.setLastOnlineTime(lastOnlineTimeString);
+
         accountMeDto.setEmojiStatus(account.getEmojiStatus());
-        accountMeDto.setCreatedOn(account.getCreatedOn().toString());
-        accountMeDto.setUpdatedOn(account.getUpdatedOn().toString());
-        accountMeDto.setDeletionTimestamp(account.getDeletionTimestamp().toString());
+
+        String createdOn = (account.getCreatedOn() != null) ? account.getCreatedOn().toString()
+                : " ";
+        accountMeDto.setCreatedOn(createdOn);
+
+        String updatedOn = (account.getUpdatedOn() != null) ? account.getUpdatedOn().toString()
+                : " ";
+        accountMeDto.setUpdatedOn(updatedOn);
+
+        String deletionTimestamp = (account.getDeletionTimestamp() != null) ? account.getDeletionTimestamp().toString()
+                : " ";
+        accountMeDto.setDeletionTimestamp(deletionTimestamp);
+
         accountMeDto.setDeleted(account.getDeleted());
         accountMeDto.setBlocked(account.getBlocked());
         accountMeDto.setIsOnline(account.getIsOnline());
