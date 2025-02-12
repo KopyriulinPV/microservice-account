@@ -83,8 +83,11 @@ public interface AccountMapper {
         account.setId(id);
         account.setFirstName(accountUpdateDto.getFirstName());
         account.setLastName(accountUpdateDto.getLastName());
-        account.setBirthDate(LocalDateTime.parse(accountUpdateDto.getBirthDate()));
-        System.out.println(LocalDateTime.parse(accountUpdateDto.getBirthDate()) + "999999999999999999999999999999999999999999999999999999999999999");
+
+        if (accountUpdateDto.getBirthDate() != null) {
+            account.setBirthDate(LocalDateTime.parse(accountUpdateDto.getBirthDate()));
+        }
+
         account.setPhone(accountUpdateDto.getPhone());
         account.setAbout(accountUpdateDto.getAbout());
         account.setCity(accountUpdateDto.getCity());
