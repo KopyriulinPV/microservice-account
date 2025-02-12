@@ -21,8 +21,8 @@ public class AccountDataDto {
     private String messagePermission;
     private String lastOnlineTime;
     private String emojiStatus;
-    private Boolean deleted;
-    private Boolean blocked;
-    private Boolean isOnline;
+    private boolean deleted;
+    private boolean blocked;
+    private boolean isOnline;
 
 }

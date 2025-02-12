@@ -77,13 +77,13 @@ public class Account {
     private LocalDateTime deletionTimestamp;
 
     @Column(name = "deleted")
-    private Boolean deleted;
+    private boolean deleted;
 
     @Column(name = "blocked")
-    private Boolean blocked;
+    private boolean blocked;
 
     @Column(name = "is_online")
-    private Boolean isOnline;
+    private boolean isOnline;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "id"))

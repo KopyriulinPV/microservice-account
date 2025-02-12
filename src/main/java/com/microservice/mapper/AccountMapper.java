@@ -4,6 +4,7 @@ import com.example.RegistrationEvent;
 import com.microservice.dto.*;
 import com.microservice.model.Account;
 import com.microservice.model.Role;
+import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -14,6 +15,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+
 public interface AccountMapper {
 
     Account accountMeDtoToAccount(AccountMeDto accountMeDto);
@@ -63,9 +65,9 @@ public interface AccountMapper {
                 : " ";
         accountMeDto.setDeletionTimestamp(deletionTimestamp);
 
-        accountMeDto.setDeleted(account.getDeleted());
-        accountMeDto.setBlocked(account.getBlocked());
-        accountMeDto.setIsOnline(account.getIsOnline());
+        accountMeDto.setDeleted(account.isDeleted());
+        accountMeDto.setBlocked(account.isBlocked());
+        accountMeDto.setOnline(account.isOnline());
 
         return accountMeDto;
     }
@@ -82,17 +84,19 @@ public interface AccountMapper {
         account.setFirstName(accountUpdateDto.getFirstName());
         account.setLastName(accountUpdateDto.getLastName());
 
-        if (accountUpdateDto.getBirthDate() != null) {
-            account.setBirthDate(LocalDateTime.parse(accountUpdateDto.getBirthDate()));
-        }
+        account.setBirthDate(LocalDateTime.parse(accountUpdateDto.getBirthDate()));
+
 
         account.setPhone(accountUpdateDto.getPhone());
         account.setAbout(accountUpdateDto.getAbout());
         account.setCity(accountUpdateDto.getCity());
         account.setCountry(accountUpdateDto.getCountry());
-        account.setEmojiStatus(accountUpdateDto.getEmojiStatus());
+        if (accountUpdateDto.getBirthDate() != null) {
+            account.setEmojiStatus(accountUpdateDto.getEmojiStatus());        }
+
         account.setPhoto(accountUpdateDto.getPhoto());
         account.setProfileCover(accountUpdateDto.getProfileCover());
+
         return account;
     }
 

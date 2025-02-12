@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import com.microservice.dto.*;
 import com.microservice.mapper.AccountMapper;
 import com.microservice.service.AccountService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/account")
 @RequiredArgsConstructor
+@Slf4j
 public class AccountController {
 
     private final AccountService accountService;
@@ -46,7 +48,7 @@ public class AccountController {
     @GetMapping("/me")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<AccountMeDto> getCurrentAccount(Authentication authentication) {
-
+        log.info("Вошел в getCurrentAccount");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         UUID accountId = UUID.fromString(userDetails.getUsername());
         return new ResponseEntity<>(accountMapper.accountToAccountMeDto(

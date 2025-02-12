@@ -36,9 +36,9 @@ public class AccountMeDto {
     private String createdOn;
     private String updatedOn;
     private String deletionTimestamp;
-    private Boolean deleted;
-    private Boolean blocked;
-    private Boolean isOnline;
+    private boolean deleted;
+    private boolean blocked;
+    private boolean isOnline;
 
 
 }
