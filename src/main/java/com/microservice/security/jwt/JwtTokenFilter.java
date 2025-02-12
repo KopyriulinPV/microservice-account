@@ -34,7 +34,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         String headerAuth = request.toString();
-        System.out.println(headerAuth);
         System.out.println("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
 
         try {
@@ -65,7 +64,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception e) {
-            log.error("Cannot set user authentication1111: {}", e.getMessage());
+            log.error("00000000000000000000000000000000000000000000000000000000000000000000000000000", e.getMessage());
         }
 
         filterChain.doFilter(request, response);

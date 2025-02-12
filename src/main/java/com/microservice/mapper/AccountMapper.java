@@ -1,16 +1,15 @@
 package com.microservice.mapper;
 
+
 import com.example.RegistrationEvent;
 import com.microservice.dto.*;
 import com.microservice.model.Account;
 import com.microservice.model.Role;
-import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -65,9 +64,13 @@ public interface AccountMapper {
                 : " ";
         accountMeDto.setDeletionTimestamp(deletionTimestamp);
 
-        accountMeDto.setDeleted(account.isDeleted());
-        accountMeDto.setBlocked(account.isBlocked());
-        accountMeDto.setOnline(account.isOnline());
+        accountMeDto.setDeleted(account.getDeleted());
+        accountMeDto.setBlocked(account.getBlocked());
+        accountMeDto.setIsOnline(account.getIsOnline());
+
+        accountMeDto.setRoles(account.getRoles().stream()
+                .map(Role::toString)
+                .collect(Collectors.toSet()));
 
         return accountMeDto;
     }
@@ -92,7 +95,8 @@ public interface AccountMapper {
         account.setCity(accountUpdateDto.getCity());
         account.setCountry(accountUpdateDto.getCountry());
         if (accountUpdateDto.getBirthDate() != null) {
-            account.setEmojiStatus(accountUpdateDto.getEmojiStatus());        }
+            account.setEmojiStatus(accountUpdateDto.getEmojiStatus());
+        }
 
         account.setPhoto(accountUpdateDto.getPhoto());
         account.setProfileCover(accountUpdateDto.getProfileCover());
