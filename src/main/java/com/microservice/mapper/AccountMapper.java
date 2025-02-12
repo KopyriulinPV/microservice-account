@@ -66,9 +66,7 @@ public interface AccountMapper {
         accountMeDto.setDeleted(account.getDeleted());
         accountMeDto.setBlocked(account.getBlocked());
         accountMeDto.setIsOnline(account.getIsOnline());
-        accountMeDto.setRoles(account.getRoles().stream()
-                .map(Role::toString)
-                .collect(Collectors.toSet()));
+
         return accountMeDto;
     }
 

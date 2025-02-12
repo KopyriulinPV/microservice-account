@@ -40,6 +40,5 @@ public class AccountMeDto {
     private Boolean blocked;
     private Boolean isOnline;
 
-    private Set<String> roles;
 
 }
