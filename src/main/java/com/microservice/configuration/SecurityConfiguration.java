@@ -2,7 +2,6 @@ package com.microservice.configuration;
 
 import lombok.RequiredArgsConstructor;
 import com.microservice.security.UserDetailsServiceImpl;
-import com.microservice.security.jwt.JwtAuthenticationEntryPoint;
 import com.microservice.security.jwt.JwtTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +25,7 @@ public class SecurityConfiguration {
 
     private final UserDetailsServiceImpl userDetailsService;
 
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    /*private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;*/
 
     private final JwtTokenFilter jwtTokenFilter;
 
@@ -59,7 +58,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/account/search/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .exceptionHandling(configurer -> configurer.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                /*.exceptionHandling(configurer -> configurer.authenticationEntryPoint(jwtAuthenticationEntryPoint))*/
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())

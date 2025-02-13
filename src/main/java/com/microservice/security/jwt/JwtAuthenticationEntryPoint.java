@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+/*@Component
 @Slf4j
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
@@ -35,4 +35,4 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         objectMapper.writeValue(response.getOutputStream(), body);
     }
-}
+}*/

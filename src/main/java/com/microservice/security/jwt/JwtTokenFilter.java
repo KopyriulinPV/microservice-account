@@ -65,7 +65,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception e) {
-            log.error("Error", e.getMessage());
+            log.error("Ошибка аутентификации:", e);
         }
 
         filterChain.doFilter(request, response);
