@@ -64,9 +64,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 
-        } catch (Exception e) {
-            log.error("Ошибка аутентификации:", e);
+        } catch (IllegalArgumentException e) {
+            log.error("Невалидный JWT токен:", e);
         }
+
 
         filterChain.doFilter(request, response);
     }

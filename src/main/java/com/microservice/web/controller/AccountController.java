@@ -194,6 +194,7 @@ public class AccountController {
     public ResponseEntity<AccountListResponse> searchAccounts(AccountFilter accountFilter) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер searchAccounts accountFilter");
+
         return new ResponseEntity<>(accountMapper.accountListToAccountListResponse(accountService.searchAccounts(accountFilter)), HttpStatus.OK);
     }
 
