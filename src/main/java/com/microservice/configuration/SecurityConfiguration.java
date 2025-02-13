@@ -56,8 +56,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/account/lastAction/**").permitAll()
                         .requestMatchers("/api/v1/account/{id}").permitAll()
                         .requestMatchers("/api/v1/account/total").permitAll()
-                        .requestMatchers("/api/v1/account/search/**").permitAll()
-                        .requestMatchers("/api/v1/account/search").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(configurer -> configurer.authenticationEntryPoint(jwtAuthenticationEntryPoint))
