@@ -3,6 +3,7 @@ package com.microservice.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -56,7 +57,7 @@ public class Account {
     private LocalDateTime regDate;
 
     @Column(name = "birth_date")
-    private LocalDateTime birthDate;
+    private OffsetDateTime birthDate;
 
     @Column(name = "message_permission")
     private String messagePermission;
