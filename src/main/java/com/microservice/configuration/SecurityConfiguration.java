@@ -60,7 +60,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/account/search").permitAll()
                         .anyRequest().authenticated()
                 )
-                .exceptionHandling(configurer -> configurer.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                /*.exceptionHandling(configurer -> configurer.authenticationEntryPoint(jwtAuthenticationEntryPoint))*/
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
