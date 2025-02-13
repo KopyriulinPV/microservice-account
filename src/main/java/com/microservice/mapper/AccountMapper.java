@@ -35,34 +35,33 @@ public interface AccountMapper {
         accountMeDto.setCountry(account.getCountry());
         accountMeDto.setStatusCode(account.getStatusCode());
 
-        String regDateString = (account.getRegDate() != null) ? account.getRegDate().toString()
-                : " ";
-        accountMeDto.setRegDate(regDateString);
+        if (account.getRegDate() != null) {
+            accountMeDto.setRegDate(account.getRegDate().toString());
+        }
 
-        String birthDateString = (account.getBirthDate() != null) ? account.getBirthDate().toString()
-                : " ";
-        accountMeDto.setBirthDate(birthDateString);
-
+        if (account.getBirthDate() != null) {
+            accountMeDto.setBirthDate(account.getBirthDate().toString());
+        }
 
         accountMeDto.setMessagePermission(account.getMessagePermission());
 
-        String lastOnlineTimeString = (account.getLastOnlineTime() != null) ? account.getLastOnlineTime().toString()
-                : " ";
-        accountMeDto.setLastOnlineTime(lastOnlineTimeString);
+        if (account.getLastOnlineTime() != null) {
+            accountMeDto.setLastOnlineTime(account.getLastOnlineTime().toString());
+        }
 
         accountMeDto.setEmojiStatus(account.getEmojiStatus());
 
-        String createdOn = (account.getCreatedOn() != null) ? account.getCreatedOn().toString()
-                : " ";
-        accountMeDto.setCreatedOn(createdOn);
+        if (account.getCreatedOn() != null) {
+            accountMeDto.setCreatedOn(account.getCreatedOn().toString());
+        }
 
-        String updatedOn = (account.getUpdatedOn() != null) ? account.getUpdatedOn().toString()
-                : " ";
-        accountMeDto.setUpdatedOn(updatedOn);
+        if (account.getUpdatedOn() != null) {
+            accountMeDto.setUpdatedOn(account.getUpdatedOn().toString());
+        }
 
-        String deletionTimestamp = (account.getDeletionTimestamp() != null) ? account.getDeletionTimestamp().toString()
-                : " ";
-        accountMeDto.setDeletionTimestamp(deletionTimestamp);
+        if (account.getDeletionTimestamp() != null) {
+            accountMeDto.setDeletionTimestamp(account.getDeletionTimestamp().toString());
+        }
 
         accountMeDto.setDeleted(account.getDeleted());
         accountMeDto.setBlocked(account.getBlocked());
@@ -87,8 +86,9 @@ public interface AccountMapper {
         account.setFirstName(accountUpdateDto.getFirstName());
         account.setLastName(accountUpdateDto.getLastName());
 
-        account.setBirthDate(LocalDateTime.parse(accountUpdateDto.getBirthDate()));
-
+        if (accountUpdateDto.getBirthDate() != null) {
+            account.setDeletionTimestamp(LocalDateTime.parse(accountUpdateDto.getBirthDate()));
+        }
 
         account.setPhone(accountUpdateDto.getPhone());
         account.setAbout(accountUpdateDto.getAbout());

@@ -38,6 +38,8 @@ public class AccountServiceImpl implements AccountService {
        Account account = accountRepository.findById(id).get();
        account.setDeleted(true);
        accountRepository.save(account);
+       accountRepository.deleteById(id);
+        //удали строчку выше !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     @Override

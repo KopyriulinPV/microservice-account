@@ -33,8 +33,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String headerAuth = request.toString();
-        System.out.println("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        log.info("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+        log.info("вошел в JwtTokenFilter");
+
 
         try {
             String token = getToken(request);
@@ -64,7 +65,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception e) {
-            log.error("00000000000000000000000000000000000000000000000000000000000000000000000000000", e.getMessage());
+            log.error("Error", e.getMessage());
         }
 
         filterChain.doFilter(request, response);

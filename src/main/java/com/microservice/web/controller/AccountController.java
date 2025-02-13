@@ -48,7 +48,8 @@ public class AccountController {
     @GetMapping("/me")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<AccountMeDto> getCurrentAccount(Authentication authentication) {
-        System.out.println("2222222222222222222222222222222222222222222222222222222222222222222222222");
+        log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        log.info("вошел в контроллер getCurrentAccount");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         UUID accountId = UUID.fromString(userDetails.getUsername());
 
@@ -66,7 +67,8 @@ public class AccountController {
     @PutMapping("/me")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<AccountMeDto> updateAccountMe(Authentication authentication, @RequestBody AccountUpdateDto accountUpdateDto) {
-
+        log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        log.info("вошел в контроллер updateAccountMe");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         UUID accountId = UUID.fromString(userDetails.getUsername());
 
@@ -85,6 +87,8 @@ public class AccountController {
     @DeleteMapping("/me")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Void> markAccountAsDeleted(Authentication authentication) {
+        log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        log.info("вошел в контроллер markAccountAsDeleted");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         UUID accountId = UUID.fromString(userDetails.getUsername());
         accountService.markAccountAsDeletedById(accountId);
@@ -100,6 +104,8 @@ public class AccountController {
     })
     @GetMapping
     public ResponseEntity<AccountResponseDto> getAccount(@RequestParam String email) {
+        log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        log.info("вошел в контроллер getAccount email");
         return new ResponseEntity<>(accountMapper.
                 accountToAccountResponseDto(accountService.getAccountByEmail(email)), HttpStatus.OK);
     }
@@ -115,6 +121,8 @@ public class AccountController {
     })
     @PostMapping
     public ResponseEntity<AccountMeDto> createAccount(@RequestBody AccountMeDto accountMeDto) {
+        log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        log.info("вошел в контроллер createAccount accountMeDto");
         return new ResponseEntity<>(accountMapper.accountToAccountMeDto(
                 accountService.createAccount(
                         accountMapper.accountMeDtoToAccount(accountMeDto))), HttpStatus.CREATED);
@@ -129,6 +137,8 @@ public class AccountController {
     })
     @PostMapping("/lastAction/{uuid}")
     public ResponseEntity<String> receiveUUIDFromPath(@PathVariable UUID id){
+        log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        log.info("вошел в контроллер receiveUUIDFromPath UUID id");
         accountService.markAccountAsOfflineById(id);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
@@ -142,6 +152,8 @@ public class AccountController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<AccountDataDto> getAccountById(@PathVariable UUID id) {
+        log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        log.info("вошел в контроллер getAccountById UUID id");
         return new ResponseEntity<>(accountMapper.accountToAccountDataDto(accountService
                 .getAccountById(id)), HttpStatus.OK);
     }
@@ -150,6 +162,8 @@ public class AccountController {
     @ApiResponse(responseCode = "200", description = "OK")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> markAccountAsDeletedById(@PathVariable UUID id) {
+        log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        log.info("вошел в контроллер markAccountAsDeletedById UUID id");
         accountService.markAccountAsDeletedById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -158,6 +172,8 @@ public class AccountController {
     @ApiResponse(responseCode = "200", description = "OK")
     @PatchMapping("/{id}")
     public ResponseEntity<Void> markAccountAsBlockedById(@PathVariable UUID id) {
+        log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        log.info("вошел в контроллер markAccountAsBlockedById UUID id");
         accountService.markAccountAsBlockedById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -168,12 +184,16 @@ public class AccountController {
     })
     @GetMapping("/total")
     public ResponseEntity<Long> getTotalAccountsCount() {
+        log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        log.info("вошел в контроллер getTotalAccountsCount");
         return new ResponseEntity<>(accountService.getTotalAccountsCount(), HttpStatus.OK);
     }
 
     @Operation(summary = "Глобальный поиск аккаунта по ключевым словам")
     @GetMapping("/search")
     public ResponseEntity<AccountListResponse> searchAccounts(AccountFilter accountFilter) {
+        log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        log.info("вошел в контроллер searchAccounts accountFilter");
         return new ResponseEntity<>(accountMapper.accountListToAccountListResponse(accountService.searchAccounts(accountFilter)), HttpStatus.OK);
     }
 
