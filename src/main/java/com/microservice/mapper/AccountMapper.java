@@ -86,7 +86,7 @@ public interface AccountMapper {
         account.setFirstName(accountUpdateDto.getFirstName());
         account.setLastName(accountUpdateDto.getLastName());
 
-        if (accountUpdateDto.getBirthDate() != null) {
+        if (accountUpdateDto.getBirthDate() != null && !accountUpdateDto.getBirthDate().equals("none")) {
             account.setDeletionTimestamp(LocalDateTime.parse(accountUpdateDto.getBirthDate()));
         }
 
