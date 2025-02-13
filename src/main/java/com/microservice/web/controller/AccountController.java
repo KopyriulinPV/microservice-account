@@ -50,11 +50,15 @@ public class AccountController {
     public ResponseEntity<AccountMeDto> getCurrentAccount(Authentication authentication) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер getCurrentAccount");
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        UUID accountId = UUID.fromString(userDetails.getUsername());
+        try{
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            UUID accountId = UUID.fromString(userDetails.getUsername());
+            return new ResponseEntity<>(accountMapper.accountToAccountMeDto(
+                    accountService.getAccountById(accountId)), HttpStatus.OK);
+        } catch(Exception ignore) {
 
-        return new ResponseEntity<>(accountMapper.accountToAccountMeDto(
-                accountService.getAccountById(accountId)), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
@@ -69,17 +73,23 @@ public class AccountController {
     public ResponseEntity<AccountMeDto> updateAccountMe(Authentication authentication, @RequestBody AccountUpdateDto accountUpdateDto) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер updateAccountMe");
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        UUID accountId = UUID.fromString(userDetails.getUsername());
+        try{
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            UUID accountId = UUID.fromString(userDetails.getUsername());
 
-        AccountMeDto accountMeDto = accountMapper
-                .accountToAccountMeDto(accountService.
-                        update(accountMapper
-                                .AccountUpdateDtoToAccount(accountId, accountUpdateDto)));
+            AccountMeDto accountMeDto = accountMapper
+                    .accountToAccountMeDto(accountService.
+                            update(accountMapper
+                                    .AccountUpdateDtoToAccount(accountId, accountUpdateDto)));
 
-        /*updateAccountService.sendUpdateAccountEvent(accountMapper.AccountMeDtoToRegistrationEvent(accountMeDto));*/
+            /*updateAccountService.sendUpdateAccountEvent(accountMapper.AccountMeDtoToRegistrationEvent(accountMeDto));*/
 
-        return new ResponseEntity<>(accountMeDto, HttpStatus.OK);
+            return new ResponseEntity<>(accountMeDto, HttpStatus.OK);
+        } catch(Exception ignore) {
+
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
     }
 
     @Operation(summary = "Пометить текущий аккаунт как удалённый")
@@ -194,8 +204,12 @@ public class AccountController {
     public ResponseEntity<AccountListResponse> searchAccounts(AccountFilter accountFilter) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер searchAccounts accountFilter");
+        try{
+            return new ResponseEntity<>(accountMapper.accountListToAccountListResponse(accountService.searchAccounts(accountFilter)), HttpStatus.OK);
+        } catch(Exception ignore) {
 
-        return new ResponseEntity<>(accountMapper.accountListToAccountListResponse(accountService.searchAccounts(accountFilter)), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
    /*@Operation(summary = "Поиск аккаунта по статус-коду отношений в микросервисе Friends. Этот контроллер ссылается на глобальный поиск аккаунтов /search, так как в нем учтен statusCode.")
