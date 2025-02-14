@@ -1,14 +1,15 @@
 package com.microservice.dto;
 
 import lombok.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountFilter {
 
-    private Integer pageSize;
-    private Integer pageNumber;
+    private Integer size;
+    private Integer page;
 
     // не понятно, что за автор, ждем фронтенд
     private String author;

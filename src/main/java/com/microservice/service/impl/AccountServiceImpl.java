@@ -1,5 +1,6 @@
 package com.microservice.service.impl;
 
+import com.microservice.repository.AccountSpecifications;
 import lombok.RequiredArgsConstructor;
 import com.microservice.dto.AccountFilter;
 import com.microservice.model.Account;
@@ -7,7 +8,9 @@ import com.microservice.repository.AccountRepository;
 import com.microservice.repository.AccountSpecification;
 import com.microservice.service.AccountService;
 import com.microservice.utils.BeanUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
@@ -65,14 +68,28 @@ public class AccountServiceImpl implements AccountService {
     public List<Account> searchAccounts(AccountFilter accountFilter) {
         return accountRepository.findAll(AccountSpecification.withFilter(accountFilter),
                 PageRequest.of(
-                        accountFilter.getPageNumber(), accountFilter.getPageSize()
+                        accountFilter.getPage(), accountFilter.getSize()
                 )).getContent();
     }
+
+    public Page<Account> findAccount(Boolean isDeleted, Integer size) {
+        Specification<Account> spec = Specification.where(null);
+        if (isDeleted != null) {
+            spec = spec.and(AccountSpecifications.byIsDeleted(isDeleted));
+        }
+        return accountRepository.findAll(spec, PageRequest.of(1, size));
+    }
+
+
+
+
 
     public Account update(Account account) {
         Account existedAccount = accountRepository.findById(account.getId()).get();
         BeanUtils.copyNonNullProperties(account, existedAccount);
         return accountRepository.save(existedAccount);
     }
+
+
 
 }

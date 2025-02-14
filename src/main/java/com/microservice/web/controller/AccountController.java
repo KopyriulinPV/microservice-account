@@ -1,6 +1,7 @@
 package com.microservice.web.controller;
 
 
+import com.microservice.model.Account;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,6 +13,7 @@ import com.microservice.dto.*;
 import com.microservice.mapper.AccountMapper;
 import com.microservice.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -92,6 +94,8 @@ public class AccountController {
 
     }
 
+
+
     @Operation(summary = "Пометить текущий аккаунт как удалённый")
     @ApiResponse(responseCode = "200", description = "OK")
     @DeleteMapping("/me")
@@ -99,10 +103,14 @@ public class AccountController {
     public ResponseEntity<Void> markAccountAsDeleted(Authentication authentication) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер markAccountAsDeleted");
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        UUID accountId = UUID.fromString(userDetails.getUsername());
-        accountService.markAccountAsDeletedById(accountId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try{
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            UUID accountId = UUID.fromString(userDetails.getUsername());
+            accountService.markAccountAsDeletedById(accountId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch(Exception ignore) {
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
@@ -116,8 +124,15 @@ public class AccountController {
     public ResponseEntity<AccountResponseDto> getAccount(@RequestParam String email) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер getAccount email");
-        return new ResponseEntity<>(accountMapper.
-                accountToAccountResponseDto(accountService.getAccountByEmail(email)), HttpStatus.OK);
+        try{
+            return new ResponseEntity<>(accountMapper.
+                    accountToAccountResponseDto(accountService.getAccountByEmail(email)), HttpStatus.OK);
+        } catch(Exception ignore) {
+
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+
     }
 
     @Operation(summary = "Создание нового аккаунта")
@@ -133,9 +148,13 @@ public class AccountController {
     public ResponseEntity<AccountMeDto> createAccount(@RequestBody AccountMeDto accountMeDto) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер createAccount accountMeDto");
-        return new ResponseEntity<>(accountMapper.accountToAccountMeDto(
-                accountService.createAccount(
-                        accountMapper.accountMeDtoToAccount(accountMeDto))), HttpStatus.CREATED);
+        try{
+            return new ResponseEntity<>(accountMapper.accountToAccountMeDto(
+                    accountService.createAccount(
+                            accountMapper.accountMeDtoToAccount(accountMeDto))), HttpStatus.CREATED);
+        } catch(Exception ignore) {
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Operation(summary = "'Прием UUID от сервиса Dialogs через Webclient о завершении сессии вебсокета у аккаунта: как флаг перехода в статус offline'")
@@ -149,8 +168,14 @@ public class AccountController {
     public ResponseEntity<String> receiveUUIDFromPath(@PathVariable UUID id){
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер receiveUUIDFromPath UUID id");
-        accountService.markAccountAsOfflineById(id);
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        try{
+            accountService.markAccountAsOfflineById(id);
+            return new ResponseEntity<>("OK", HttpStatus.OK);
+        } catch(Exception ignore) {
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+
     }
 
 
@@ -164,9 +189,14 @@ public class AccountController {
     public ResponseEntity<AccountDataDto> getAccountById(@PathVariable UUID id) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер getAccountById UUID id");
-        return new ResponseEntity<>(accountMapper.accountToAccountDataDto(accountService
-                .getAccountById(id)), HttpStatus.OK);
+        try{
+            return new ResponseEntity<>(accountMapper.accountToAccountDataDto(accountService
+                    .getAccountById(id)), HttpStatus.OK);
+        } catch(Exception ignore) {
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 
     @Operation(summary = "Пометить аккаунт как удалённый по ID")
     @ApiResponse(responseCode = "200", description = "OK")
@@ -174,9 +204,14 @@ public class AccountController {
     public ResponseEntity<Void> markAccountAsDeletedById(@PathVariable UUID id) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер markAccountAsDeletedById UUID id");
-        accountService.markAccountAsDeletedById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try{
+            accountService.markAccountAsDeletedById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch(Exception ignore) {
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 
     @Operation(summary = "Пометить аккаунт как заблокированный по ID")
     @ApiResponse(responseCode = "200", description = "OK")
@@ -184,8 +219,12 @@ public class AccountController {
     public ResponseEntity<Void> markAccountAsBlockedById(@PathVariable UUID id) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер markAccountAsBlockedById UUID id");
-        accountService.markAccountAsBlockedById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try{
+            accountService.markAccountAsBlockedById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch(Exception ignore) {
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Operation(summary = "Получение общего количества аккаунтов для telegram-бота")
@@ -196,14 +235,19 @@ public class AccountController {
     public ResponseEntity<Long> getTotalAccountsCount() {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер getTotalAccountsCount");
-        return new ResponseEntity<>(accountService.getTotalAccountsCount(), HttpStatus.OK);
+        try{
+            return new ResponseEntity<>(accountService.getTotalAccountsCount(), HttpStatus.OK);
+        } catch(Exception ignore) {
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
     @Operation(summary = "Глобальный поиск аккаунта по ключевым словам")
-    @GetMapping("/search")
-    public ResponseEntity<AccountListResponse> searchAccounts(AccountFilter accountFilter) {
+    @GetMapping("/search2")
+    public ResponseEntity<AccountListResponse> searchAccounts2(AccountFilter accountFilter) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
-        log.info("вошел в контроллер searchAccounts accountFilter");
+        log.info("вошел в контроллер searchAccounts2 accountFilter");
         try{
             return new ResponseEntity<>(accountMapper.accountListToAccountListResponse(accountService.searchAccounts(accountFilter)), HttpStatus.OK);
         } catch(Exception ignore) {
@@ -211,6 +255,23 @@ public class AccountController {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<Account>> searchAccounts(
+            @RequestParam(name = "size", defaultValue = "3") Integer size,
+            @RequestParam(name = "isDeleted", required = false) Boolean isDeleted
+    ) {
+        log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        log.info("вошел в контроллер searchAccounts accountFilter");
+        try{
+
+            return new ResponseEntity<>(accountService.findAccount(isDeleted, size), HttpStatus.OK);
+        } catch(Exception ignore) {
+
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
    /*@Operation(summary = "Поиск аккаунта по статус-коду отношений в микросервисе Friends. Этот контроллер ссылается на глобальный поиск аккаунтов /search, так как в нем учтен statusCode.")
     @ApiResponses(value = {

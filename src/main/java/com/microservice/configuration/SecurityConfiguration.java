@@ -58,6 +58,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/account/total").permitAll()
                         .requestMatchers("/api/v1/account/search/**").permitAll()
                         .requestMatchers("/api/v1/account/search").permitAll()
+                        .requestMatchers("/api/v1/account/search2/**").permitAll()
+                        .requestMatchers("/api/v1/account/search2").permitAll()
                         .anyRequest().authenticated()
                 )
                 /*.exceptionHandling(configurer -> configurer.authenticationEntryPoint(jwtAuthenticationEntryPoint))*/
