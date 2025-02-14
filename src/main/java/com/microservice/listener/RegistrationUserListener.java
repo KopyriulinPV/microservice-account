@@ -41,6 +41,7 @@ public class RegistrationUserListener {
         log.info("Received message: {}", registrationEvent);
         log.info("Key: {}; Partition: {}; Topic: {}; Timestamp: {}", key, partition, topic, timestamp);
 
+        registrationEvent.setDeleted(false);
         accountRepository.save(accountMapper.registrationEventToAccount(registrationEvent));
     }
 }

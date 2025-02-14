@@ -252,6 +252,7 @@ public interface AccountMapper {
         account.setLastName(registrationEvent.getLastName());
         account.setEmail(registrationEvent.getEmail());
         account.setPassword(registrationEvent.getPassword());
+        account.setDeleted(registrationEvent.getDeleted());
         account.setRoles(registrationEvent.getRoles().stream()
                 .map(Role::fromString)
                 .collect(Collectors.toSet()));
