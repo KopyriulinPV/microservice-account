@@ -238,19 +238,19 @@ public class AccountController {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
-    @Operation(summary = "Глобальный поиск аккаунта по ключевым словам")
-    @GetMapping("/search2")
-    public ResponseEntity<AccountListResponse> searchAccounts2(AccountFilter accountFilter) {
+    @GetMapping("/undefined")
+    public ResponseEntity<Long> getUndefined() {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
-        log.info("вошел в контроллер searchAccounts2 accountFilter");
+        log.info("вошел в контроллер getUndefined");
         try{
-            return new ResponseEntity<>(accountMapper.accountListToAccountListResponse(accountService.searchAccounts(accountFilter)), HttpStatus.OK);
+            return null;
         } catch(Exception ignore) {
-
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+
 
     @GetMapping("/search")
     public Page<Account> searchAccounts(
