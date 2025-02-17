@@ -239,11 +239,11 @@ public class AccountController {
     }
 
     @GetMapping("/undefined")
-    public ResponseEntity<Long> getUndefined() {
+    public ResponseEntity<Void> getUndefined() {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер getUndefined");
         try{
-            return null;
+            return ResponseEntity.status(HttpStatus.OK).build();
         } catch(Exception ignore) {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
