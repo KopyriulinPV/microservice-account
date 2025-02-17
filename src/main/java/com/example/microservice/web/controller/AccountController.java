@@ -242,6 +242,7 @@ public class AccountController {
     public ResponseEntity<Void> getUndefined() {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер getUndefined");
+
         try{
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch(Exception ignore) {
