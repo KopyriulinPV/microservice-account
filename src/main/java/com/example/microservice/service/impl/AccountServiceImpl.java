@@ -73,6 +73,15 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.count();
     }
 
+    public Account update(Account account) {
+        Account existedAccount = accountRepository.findById(account.getId()).get();
+        BeanUtils.copyNonNullProperties(account, existedAccount);
+
+        /*eventKafkaProducer.sendMessageUpdateUser(accountMapper.accountToRegistrationEvent(existedAccount));*/
+
+        return accountRepository.save(existedAccount);
+    }
+
     @Override
     public List<Account> searchAccounts(AccountFilter accountFilter) {
         return accountRepository.findAll(AccountSpecification.withFilter(accountFilter),
@@ -81,11 +90,31 @@ public class AccountServiceImpl implements AccountService {
                 )).getContent();
     }
 
-    public Page<Account> findAccount(Boolean deleted, Integer size, Integer page) {
+    public Page<Account> findAccounts(Integer size, Integer page, Boolean deleted, String ids, String firstName,
+                                      String lastName, String author, String country,
+                                      String city, Integer ageFrom, Integer ageTo) {
         Specification<Account> spec = Specification.where(null);
         if (deleted != null) {
-            log.info("5555555555555555555555555555555555555555555555555555555555555555555555555555555555");
             spec = spec.and(AccountSpecifications.byIsDeleted(deleted));
+        }
+        if (ids != null) {
+            spec = spec.and(AccountSpecifications.byIds(ids));
+        }
+        if (firstName != null) {
+            spec = spec.and(AccountSpecifications.byFirstName(firstName));
+        }
+        if (lastName != null) {
+            spec = spec.and(AccountSpecifications.byLastName(lastName));
+        }
+        /*author*/
+        if (country != null) {
+            spec = spec.and(AccountSpecifications.byCountry(country));
+        }
+        if (city != null) {
+            spec = spec.and(AccountSpecifications.byCity(city));
+        }
+        if (ageFrom != null || ageTo != null) {
+            spec = spec.and(AccountSpecifications.byAgeRange(ageFrom, ageTo));
         }
 
         return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
@@ -95,14 +124,7 @@ public class AccountServiceImpl implements AccountService {
 
 
 
-    public Account update(Account account) {
-        Account existedAccount = accountRepository.findById(account.getId()).get();
-        BeanUtils.copyNonNullProperties(account, existedAccount);
 
-        /*eventKafkaProducer.sendMessageUpdateUser(accountMapper.accountToRegistrationEvent(existedAccount));*/
-
-        return accountRepository.save(existedAccount);
-    }
 
 
 

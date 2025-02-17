@@ -256,12 +256,21 @@ public class AccountController {
     public Page<Account> searchAccounts(
             @RequestParam(name = "size", defaultValue = "3", required = false) Integer size,
             @RequestParam(name = "page", defaultValue = "1", required = false) Integer page,
-            @RequestParam(name = "isDeleted", required = false) Boolean isDeleted
+            @RequestParam(name = "isDeleted", required = false) Boolean isDeleted,
+            @RequestParam(name = "ids", required = false) String ids,
+            @RequestParam(name = "firstName", required = false) String firstName,
+            @RequestParam(name = "lastName", required = false) String lastName,
+            @RequestParam(name = "author", required = false) String author,
+            @RequestParam(name = "country", required = false) String country,
+            @RequestParam(name = "city", required = false) String city,
+            @RequestParam(name = "ageFrom", required = false) Integer ageFrom,
+            @RequestParam(name = "ageTo", required = false) Integer ageTo
     ) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер searchAccounts accountFilter");
         try{
-            return accountService.findAccount(isDeleted, size, page);
+            return accountService.findAccounts(size, page, isDeleted, ids, firstName, lastName, author, country,
+                    city, ageFrom, ageTo);
         } catch(Exception ignore) {
 
         }

@@ -1,6 +1,7 @@
 package com.example.microservice.listener;
 
 import com.example.RegistrationEvent;
+import com.example.microservice.model.Account;
 import com.example.microservice.repository.AccountRepository;
 import com.example.microservice.mapper.AccountMapper;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -38,7 +40,9 @@ public class RegistrationUserListener {
         log.info("Received message: {}", registrationEvent);
         log.info("Key: {}; Partition: {}; Topic: {}; Timestamp: {}", key, partition, topic, timestamp);
 
-        registrationEvent.setDeleted(false);
-        accountRepository.save(accountMapper.registrationEventToAccount(registrationEvent));
+        Account account = accountMapper.registrationEventToAccount(registrationEvent);
+        account.setDeleted(false);
+        account.setRegDate(LocalDateTime.now());
+        accountRepository.save(account);
     }
 }
