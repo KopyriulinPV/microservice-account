@@ -42,7 +42,7 @@ public class RegistrationUserListener {
 
         Account account = accountMapper.registrationEventToAccount(registrationEvent);
         account.setDeleted(false);
-        account.setRegDate(LocalDateTime.now());
+        /*account.setRegDate(LocalDateTime.now());*/
         accountRepository.save(account);
     }
 }
