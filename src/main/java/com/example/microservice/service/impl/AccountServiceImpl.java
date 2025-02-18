@@ -1,6 +1,7 @@
 package com.example.microservice.service.impl;
 
 import com.example.EventKafkaProducer;
+import com.example.microservice.dto.AccountResponseDto;
 import com.example.microservice.service.AccountService;
 import com.example.microservice.mapper.AccountMapper;
 import com.example.microservice.repository.AccountSpecifications;
@@ -19,6 +20,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -52,9 +54,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void markAccountAsDeletedById(UUID id) {
-       Account account = accountRepository.findById(id).get();
-       account.setDeleted(true);
-       accountRepository.save(account);
+        Account account = accountRepository.findById(id).get();
+        account.setDeleted(true);
+        /*eventKafkaProducer.sendMessageUpdateUser(accountMapper.accountToRegistrationEvent(account));*/
+        accountRepository.save(account);
     }
 
     @Override
@@ -65,10 +68,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void markAccountAsOfflineById(UUID id) {
+    public String markAccountAsOfflineById(UUID id) {
         Account account = accountRepository.findById(id).get();
         account.setStatusCode("Offline");
         accountRepository.save(account);
+        return "UUID успешно обработан";
     }
 
     @Override
@@ -122,10 +126,4 @@ public class AccountServiceImpl implements AccountService {
 
         return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
     }
-
-
-
-
-
-
 }

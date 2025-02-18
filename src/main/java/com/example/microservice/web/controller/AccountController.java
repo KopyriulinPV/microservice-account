@@ -76,79 +76,66 @@ public class AccountController {
     }
 
     @GetMapping
-    public ResponseEntity<AccountResponseDto> getAccount(@RequestParam String email) {
+    public AccountResponseDto getAccount(@RequestParam String email) {
         try {
-            return new ResponseEntity<>(accountMapper.
-                    accountToAccountResponseDto(accountService.getAccountByEmail(email)), HttpStatus.OK);
+            return accountMapper.accountToAccountResponseDto(accountService.getAccountByEmail(email));
         } catch (Exception ignore) {
-
         }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
-
+        return null;
     }
 
     @PostMapping
-    public ResponseEntity<AccountMeDto> createAccount(@RequestBody AccountMeDto accountMeDto) {
+    public AccountMeDto createAccount(@RequestBody AccountMeDto accountMeDto) {
         try {
-            return new ResponseEntity<>(accountMapper.accountToAccountMeDto(
-                    accountService.createAccount(
-                            accountMapper.accountMeDtoToAccount(accountMeDto))), HttpStatus.CREATED);
+            return accountMapper.accountToAccountMeDto(accountService.createAccount(accountMapper
+                    .accountMeDtoToAccount(accountMeDto)));
         } catch (Exception ignore) {
         }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return null;
     }
 
     @PostMapping("/lastAction/{uuid}")
-    public ResponseEntity<String> receiveUUIDFromPath(@PathVariable UUID id) {
+    public String receiveUUIDFromPath(@PathVariable UUID id) {
         try {
-            accountService.markAccountAsOfflineById(id);
-            return new ResponseEntity<>("OK", HttpStatus.OK);
+            return accountService.markAccountAsOfflineById(id);
         } catch (Exception ignore) {
         }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
-
+        return null;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AccountDataDto> getAccountById(@PathVariable UUID id) {
+    public AccountDataDto getAccountById(@PathVariable UUID id) {
         try {
-            return new ResponseEntity<>(accountMapper.accountToAccountDataDto(accountService
-                    .getAccountById(id)), HttpStatus.OK);
+            return accountMapper.accountToAccountDataDto(accountService.getAccountById(id));
         } catch (Exception ignore) {
         }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return null;
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> markAccountAsDeletedById(@PathVariable UUID id) {
+    public void markAccountAsDeletedById(@PathVariable UUID id) {
         try {
             accountService.markAccountAsDeletedById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ignore) {
         }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> markAccountAsBlockedById(@PathVariable UUID id) {
+    public void markAccountAsBlockedById(@PathVariable UUID id) {
         try {
             accountService.markAccountAsBlockedById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ignore) {
         }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/total")
-    public ResponseEntity<Long> getTotalAccountsCount() {
+    public Long getTotalAccountsCount() {
         try {
-            return new ResponseEntity<>(accountService.getTotalAccountsCount(), HttpStatus.OK);
+            return accountService.getTotalAccountsCount();
         } catch (Exception ignore) {
         }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return null;
     }
 
     @GetMapping("/undefined")
