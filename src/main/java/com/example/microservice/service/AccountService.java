@@ -3,6 +3,8 @@ package com.example.microservice.service;
 import com.example.microservice.dto.AccountFilter;
 import com.example.microservice.model.Account;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 import java.util.UUID;
@@ -29,4 +31,9 @@ public interface AccountService {
                                String lastName, String author, String country, String city, Integer ageFrom, Integer ageTo);
 
     Account update(Account account);
+
+    static UUID getAccountId(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return UUID.fromString(userDetails.getUsername());
+    }
 }

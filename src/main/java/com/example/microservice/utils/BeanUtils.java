@@ -2,7 +2,11 @@ package com.example.microservice.utils;
 
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.lang.reflect.Field;
+import java.util.UUID;
 
 @UtilityClass
 public class BeanUtils {

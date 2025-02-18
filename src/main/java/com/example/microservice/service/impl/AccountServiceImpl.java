@@ -10,11 +10,14 @@ import com.example.microservice.model.Account;
 import com.example.microservice.repository.AccountRepository;
 import com.example.microservice.repository.AccountSpecification;
 import com.example.microservice.utils.BeanUtils;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
@@ -119,9 +122,6 @@ public class AccountServiceImpl implements AccountService {
 
         return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
     }
-
-
-
 
 
 
