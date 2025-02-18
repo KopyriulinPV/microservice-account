@@ -22,6 +22,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
 
 
@@ -37,8 +38,6 @@ public class AccountController {
     private final AccountMapper accountMapper;
 
 
-
-
     @Operation(summary = "Получение информации о текущем аккаунте")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -50,12 +49,12 @@ public class AccountController {
     public ResponseEntity<AccountMeDto> getCurrentAccount(Authentication authentication) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер getCurrentAccount");
-        try{
+        try {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             UUID accountId = UUID.fromString(userDetails.getUsername());
             return new ResponseEntity<>(accountMapper.accountToAccountMeDto(
                     accountService.getAccountById(accountId)), HttpStatus.OK);
-        } catch(Exception ignore) {
+        } catch (Exception ignore) {
 
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -73,7 +72,7 @@ public class AccountController {
     public ResponseEntity<AccountMeDto> updateAccountMe(Authentication authentication, @RequestBody AccountUpdateDto accountUpdateDto) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер updateAccountMe");
-        try{
+        try {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             UUID accountId = UUID.fromString(userDetails.getUsername());
 
@@ -83,13 +82,12 @@ public class AccountController {
                                     .AccountUpdateDtoToAccount(accountId, accountUpdateDto)));
 
             return new ResponseEntity<>(accountMeDto, HttpStatus.OK);
-        } catch(Exception ignore) {
+        } catch (Exception ignore) {
 
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
-
 
 
     @Operation(summary = "Пометить текущий аккаунт как удалённый")
@@ -99,12 +97,12 @@ public class AccountController {
     public ResponseEntity<Void> markAccountAsDeleted(Authentication authentication) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер markAccountAsDeleted");
-        try{
+        try {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             UUID accountId = UUID.fromString(userDetails.getUsername());
             accountService.markAccountAsDeletedById(accountId);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch(Exception ignore) {
+        } catch (Exception ignore) {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -120,10 +118,10 @@ public class AccountController {
     public ResponseEntity<AccountResponseDto> getAccount(@RequestParam String email) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер getAccount email");
-        try{
+        try {
             return new ResponseEntity<>(accountMapper.
                     accountToAccountResponseDto(accountService.getAccountByEmail(email)), HttpStatus.OK);
-        } catch(Exception ignore) {
+        } catch (Exception ignore) {
 
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -144,11 +142,11 @@ public class AccountController {
     public ResponseEntity<AccountMeDto> createAccount(@RequestBody AccountMeDto accountMeDto) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер createAccount accountMeDto");
-        try{
+        try {
             return new ResponseEntity<>(accountMapper.accountToAccountMeDto(
                     accountService.createAccount(
                             accountMapper.accountMeDtoToAccount(accountMeDto))), HttpStatus.CREATED);
-        } catch(Exception ignore) {
+        } catch (Exception ignore) {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -161,13 +159,13 @@ public class AccountController {
             @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     })
     @PostMapping("/lastAction/{uuid}")
-    public ResponseEntity<String> receiveUUIDFromPath(@PathVariable UUID id){
+    public ResponseEntity<String> receiveUUIDFromPath(@PathVariable UUID id) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер receiveUUIDFromPath UUID id");
-        try{
+        try {
             accountService.markAccountAsOfflineById(id);
             return new ResponseEntity<>("OK", HttpStatus.OK);
-        } catch(Exception ignore) {
+        } catch (Exception ignore) {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
@@ -185,10 +183,10 @@ public class AccountController {
     public ResponseEntity<AccountDataDto> getAccountById(@PathVariable UUID id) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер getAccountById UUID id");
-        try{
+        try {
             return new ResponseEntity<>(accountMapper.accountToAccountDataDto(accountService
                     .getAccountById(id)), HttpStatus.OK);
-        } catch(Exception ignore) {
+        } catch (Exception ignore) {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -200,10 +198,10 @@ public class AccountController {
     public ResponseEntity<Void> markAccountAsDeletedById(@PathVariable UUID id) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер markAccountAsDeletedById UUID id");
-        try{
+        try {
             accountService.markAccountAsDeletedById(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch(Exception ignore) {
+        } catch (Exception ignore) {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -215,10 +213,10 @@ public class AccountController {
     public ResponseEntity<Void> markAccountAsBlockedById(@PathVariable UUID id) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер markAccountAsBlockedById UUID id");
-        try{
+        try {
             accountService.markAccountAsBlockedById(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch(Exception ignore) {
+        } catch (Exception ignore) {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -231,9 +229,9 @@ public class AccountController {
     public ResponseEntity<Long> getTotalAccountsCount() {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер getTotalAccountsCount");
-        try{
+        try {
             return new ResponseEntity<>(accountService.getTotalAccountsCount(), HttpStatus.OK);
-        } catch(Exception ignore) {
+        } catch (Exception ignore) {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -243,14 +241,12 @@ public class AccountController {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
 
         log.info("вошел в контроллер getUndefined");
-        try{
+        try {
             return ResponseEntity.status(HttpStatus.OK).build();
-        } catch(Exception ignore) {
+        } catch (Exception ignore) {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-
 
 
     @GetMapping("/search")
@@ -265,14 +261,47 @@ public class AccountController {
             @RequestParam(name = "country", required = false) String country,
             @RequestParam(name = "city", required = false) String city,
             @RequestParam(name = "ageFrom", required = false) Integer ageFrom,
-            @RequestParam(name = "ageTo", required = false) Integer ageTo
+            @RequestParam(name = "ageTo", required = false) Integer ageTo,
+            @RequestParam(name = "0", required = false) String unknownParam
     ) {
         log.info("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         log.info("вошел в контроллер searchAccounts accountFilter");
-        try{
+        try {
+            System.out.println(unknownParam);
+            if (unknownParam != null) {
+                String[] parts = unknownParam.split("=", 2);
+                if (parts.length == 2) {
+                    String paramName = parts[0];
+                    String paramValue = parts[1];
+
+                    if ("size".equals(paramName)) {
+                        size = Integer.getInteger(paramValue);
+                    } else if ("page".equals(paramName)) {
+                        page = Integer.getInteger(paramValue);;
+                    } else if ("isDeleted".equals(paramName)) {
+                        isDeleted = Boolean.getBoolean(paramValue);
+                    } else if ("ids".equals(paramName)) {
+                        ids = paramValue;
+                    } else if ("firstName".equals(paramName)) {
+                        firstName = paramValue;
+                    } else if ("lastName".equals(paramName)) {
+                        lastName = paramValue;
+                    } else if ("author".equals(paramName)) {
+                        author = paramValue;
+                    } else if ("country".equals(paramName)) {
+                        country = paramValue;
+                    } else if ("city".equals(paramName)) {
+                        city = paramValue;
+                    } else if ("ageFrom".equals(paramName)) {
+                        ageFrom = Integer.getInteger(paramValue);
+                    } else if ("ageTo".equals(paramName)) {
+                        ageTo = Integer.getInteger(paramValue);
+                    }
+                }
+            }
             return accountService.findAccounts(size, page, isDeleted, ids, firstName, lastName, author, country,
                     city, ageFrom, ageTo);
-        } catch(Exception ignore) {
+        } catch (Exception ignore) {
 
         }
         return null;
