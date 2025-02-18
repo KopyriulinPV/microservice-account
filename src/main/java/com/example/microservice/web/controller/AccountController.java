@@ -63,21 +63,16 @@ public class AccountController {
 
         }
         return null;
-
     }
 
 
     @DeleteMapping("/me")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<Void> markAccountAsDeleted(Authentication authentication) {
+    public void markAccountAsDeleted(Authentication authentication) {
         try {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            UUID accountId = UUID.fromString(userDetails.getUsername());
-            accountService.markAccountAsDeletedById(accountId);
-            return new ResponseEntity<>(HttpStatus.OK);
+            accountService.markAccountAsDeletedById(AccountService.getAccountId(authentication));
         } catch (Exception ignore) {
         }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping
