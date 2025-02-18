@@ -97,9 +97,42 @@ public class AccountServiceImpl implements AccountService {
                 )).getContent();
     }
 
-    public Page<Account> findAccounts(Integer size, Integer page, Boolean deleted, String ids, String firstName,
+    public Page<Account> findAccounts(String unknownParam, Integer size, Integer page, Boolean deleted, String ids, String firstName,
                                       String lastName, String author, String country,
                                       String city, Integer ageFrom, Integer ageTo) {
+
+        if (unknownParam != null) {
+            String[] parts = unknownParam.split("=", 2);
+            if (parts.length == 2) {
+                String paramName = parts[0];
+                String paramValue = parts[1];
+
+                if ("size".equals(paramName)) {
+                    size = Integer.getInteger(paramValue);
+                } else if ("page".equals(paramName)) {
+                    page = Integer.getInteger(paramValue);;
+                } else if ("isDeleted".equals(paramName)) {
+                    deleted = Boolean.getBoolean(paramValue);
+                } else if ("ids".equals(paramName)) {
+                    ids = paramValue;
+                } else if ("firstName".equals(paramName)) {
+                    firstName = paramValue;
+                } else if ("lastName".equals(paramName)) {
+                    lastName = paramValue;
+                } else if ("author".equals(paramName)) {
+                    author = paramValue;
+                } else if ("country".equals(paramName)) {
+                    country = paramValue;
+                } else if ("city".equals(paramName)) {
+                    city = paramValue;
+                } else if ("ageFrom".equals(paramName)) {
+                    ageFrom = Integer.getInteger(paramValue);
+                } else if ("ageTo".equals(paramName)) {
+                    ageTo = Integer.getInteger(paramValue);
+                }
+            }
+        }
+
         Specification<Account> spec = Specification.where(null);
         if (deleted != null) {
             spec = spec.and(AccountSpecifications.byIsDeleted(deleted));

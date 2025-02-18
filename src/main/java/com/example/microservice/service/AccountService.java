@@ -27,7 +27,7 @@ public interface AccountService {
 
     List<Account> searchAccounts(AccountFilter accountFilter);
 
-    Page<Account> findAccounts(Integer size, Integer page, Boolean isDeleted, String ids, String firstName,
+    Page<Account> findAccounts(String unknownParam, Integer size, Integer page, Boolean isDeleted, String ids, String firstName,
                                String lastName, String author, String country, String city, Integer ageFrom, Integer ageTo);
 
     Account update(Account account);
