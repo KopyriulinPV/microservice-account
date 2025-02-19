@@ -21,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,6 +57,7 @@ public class AccountServiceImpl implements AccountService {
     public void markAccountAsDeletedById(UUID id) {
         Account account = accountRepository.findById(id).get();
         account.setDeleted(true);
+        account.setDeletionTimestamp(ZonedDateTime.now());
         /*eventKafkaProducer.sendMessageUpdateUser(accountMapper.accountToRegistrationEvent(account));*/
         accountRepository.save(account);
     }
@@ -68,9 +70,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public String markAccountAsOfflineById(UUID id) {
+    public String markLastOnlineTimeById(UUID id) {
         Account account = accountRepository.findById(id).get();
-        account.setStatusCode("Offline");
+        account.setLastOnlineTime(ZonedDateTime.now());
         accountRepository.save(account);
         return "UUID успешно обработан";
     }
@@ -85,7 +87,7 @@ public class AccountServiceImpl implements AccountService {
         BeanUtils.copyNonNullProperties(account, existedAccount);
 
         /*eventKafkaProducer.sendMessageUpdateUser(accountMapper.accountToRegistrationEvent(existedAccount));*/
-
+        existedAccount.setUpdatedOn(ZonedDateTime.now());
         return accountRepository.save(existedAccount);
     }
 

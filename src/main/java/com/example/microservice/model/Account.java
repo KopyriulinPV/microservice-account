@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -54,28 +55,28 @@ public class Account {
     private String statusCode;
 
     @Column(name = "reg_date")
-    private LocalDateTime regDate;
+    private ZonedDateTime regDate;
 
     @Column(name = "birth_date")
-    private OffsetDateTime birthDate;
+    private ZonedDateTime birthDate;
 
     @Column(name = "message_permission")
     private String messagePermission;
 
     @Column(name = "last_online_time")
-    private LocalDateTime lastOnlineTime;
+    private ZonedDateTime lastOnlineTime;
 
     @Column(name = "emoji_status")
     private String emojiStatus;
 
     @Column(name = "created_on")
-    private LocalDateTime createdOn;
+    private ZonedDateTime createdOn;
 
     @Column(name = "updated_on")
-    private LocalDateTime updatedOn;
+    private ZonedDateTime updatedOn;
 
     @Column(name = "deletion_timestamp")
-    private LocalDateTime deletionTimestamp;
+    private ZonedDateTime deletionTimestamp;
 
     @Column(name = "deleted")
     private Boolean deleted;

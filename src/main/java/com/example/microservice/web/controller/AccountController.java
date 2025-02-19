@@ -95,9 +95,9 @@ public class AccountController {
     }
 
     @PostMapping("/lastAction/{uuid}")
-    public String receiveUUIDFromPath(@PathVariable UUID id) {
+    public String receiveUUIDFromPath(@PathVariable UUID uuid) {
         try {
-            return accountService.markAccountAsOfflineById(id);
+            return accountService.markLastOnlineTimeById(uuid);
         } catch (Exception ignore) {
         }
         return null;

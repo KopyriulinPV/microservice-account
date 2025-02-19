@@ -13,6 +13,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Component
@@ -42,7 +43,7 @@ public class RegistrationUserListener {
 
         Account account = accountMapper.registrationEventToAccount(registrationEvent);
         account.setDeleted(false);
-        /*account.setRegDate(LocalDateTime.now());*/
+        account.setRegDate(ZonedDateTime.now());
         accountRepository.save(account);
     }
 }

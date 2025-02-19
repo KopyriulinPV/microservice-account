@@ -10,6 +10,7 @@ import org.mapstruct.ReportingPolicy;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -34,31 +35,31 @@ public interface AccountMapper {
         account.setStatusCode(accountMeDto.getStatusCode());
 
         if (account.getRegDate() != null) {
-            account.setRegDate(LocalDateTime.parse(accountMeDto.getRegDate()));
+            account.setRegDate(ZonedDateTime.parse(accountMeDto.getRegDate()));
         }
 
         if (account.getBirthDate() != null) {
-            account.setBirthDate(OffsetDateTime.parse(accountMeDto.getBirthDate()));
+            account.setBirthDate(ZonedDateTime.parse(accountMeDto.getBirthDate()));
         }
 
         account.setMessagePermission(accountMeDto.getMessagePermission());
 
         if (account.getLastOnlineTime() != null) {
-            account.setLastOnlineTime(LocalDateTime.parse(accountMeDto.getLastOnlineTime()));
+            account.setLastOnlineTime(ZonedDateTime.parse(accountMeDto.getLastOnlineTime()));
         }
 
         account.setEmojiStatus(accountMeDto.getEmojiStatus());
 
         if (account.getCreatedOn() != null) {
-            account.setCreatedOn(LocalDateTime.parse(accountMeDto.getCreatedOn()));
+            account.setCreatedOn(ZonedDateTime.parse(accountMeDto.getCreatedOn()));
         }
 
         if (account.getUpdatedOn() != null) {
-            account.setUpdatedOn(LocalDateTime.parse(accountMeDto.getUpdatedOn()));
+            account.setUpdatedOn(ZonedDateTime.parse(accountMeDto.getUpdatedOn()));
         }
 
         if (account.getDeletionTimestamp() != null) {
-            account.setDeletionTimestamp(LocalDateTime.parse(accountMeDto.getDeletionTimestamp()));
+            account.setDeletionTimestamp(ZonedDateTime.parse(accountMeDto.getDeletionTimestamp()));
         }
 
         account.setDeleted(account.getDeleted());
@@ -219,7 +220,7 @@ public interface AccountMapper {
         account.setLastName(accountUpdateDto.getLastName());
 
         if (accountUpdateDto.getBirthDate() != null && !accountUpdateDto.getBirthDate().equals("none")) {
-            account.setBirthDate(OffsetDateTime.parse(accountUpdateDto.getBirthDate()));
+            account.setBirthDate(ZonedDateTime.parse(accountUpdateDto.getBirthDate()));
         }
 
         account.setPhone(accountUpdateDto.getPhone());

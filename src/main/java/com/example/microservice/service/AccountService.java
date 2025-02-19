@@ -21,7 +21,7 @@ public interface AccountService {
 
     void markAccountAsBlockedById(UUID id);
 
-    String markAccountAsOfflineById(UUID id);
+    String markLastOnlineTimeById(UUID id);
 
     Long getTotalAccountsCount();
 
