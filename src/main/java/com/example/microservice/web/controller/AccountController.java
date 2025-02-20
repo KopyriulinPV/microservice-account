@@ -104,9 +104,9 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public AccountDataDto getAccountById(@PathVariable UUID id) {
+    public ResponseEntity<AccountDataDto> getAccountById(@PathVariable UUID id) {
         try {
-            return accountMapper.accountToAccountDataDto(accountService.getAccountById(id));
+            return ResponseEntity.ok(accountMapper.accountToAccountDataDto(accountService.getAccountById(id)));
         } catch (Exception ignore) {
         }
         return null;
