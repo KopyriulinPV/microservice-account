@@ -99,38 +99,57 @@ public class AccountServiceImpl implements AccountService {
                 )).getContent();
     }
 
-    public Page<Account> findAccounts(String unknownParam, Integer size, Integer page, Boolean deleted, String ids, String firstName,
+    public Page<Account> findAccounts(String unknownParam1, String unknownParam2, String unknownParam3,
+                                      String unknownParam4, String unknownParam5, Integer size, Integer page,
+                                      Boolean deleted, String ids, String firstName,
                                       String lastName, String author, String country,
                                       String city, Integer ageFrom, Integer ageTo) {
 
-        if (unknownParam != null) {
-            String[] parts = unknownParam.split("=", 2);
-            if (parts.length == 2) {
-                String paramName = parts[0];
-                String paramValue = parts[1];
+        String[] unknownParams = {unknownParam1, unknownParam2, unknownParam3, unknownParam4, unknownParam5};
 
-                if ("size".equals(paramName)) {
-                    size = Integer.getInteger(paramValue);
-                } else if ("page".equals(paramName)) {
-                    page = Integer.getInteger(paramValue);;
-                } else if ("isDeleted".equals(paramName)) {
-                    deleted = Boolean.getBoolean(paramValue);
-                } else if ("ids".equals(paramName)) {
-                    ids = paramValue;
-                } else if ("firstName".equals(paramName)) {
-                    firstName = paramValue;
-                } else if ("lastName".equals(paramName)) {
-                    lastName = paramValue;
-                } else if ("author".equals(paramName)) {
-                    author = paramValue;
-                } else if ("country".equals(paramName)) {
-                    country = paramValue;
-                } else if ("city".equals(paramName)) {
-                    city = paramValue;
-                } else if ("ageFrom".equals(paramName)) {
-                    ageFrom = Integer.getInteger(paramValue);
-                } else if ("ageTo".equals(paramName)) {
-                    ageTo = Integer.getInteger(paramValue);
+        for (String unknownParam : unknownParams) {
+            if (unknownParam != null) {
+                String[] parts = unknownParam.split("=", 2);
+                if (parts.length == 2) {
+                    String paramName = parts[0];
+                    System.out.println(paramName);
+                    String paramValue = parts[1];
+                    System.out.println(paramValue);
+                    switch (paramName) {
+                        case "size":
+                            size = Integer.valueOf(paramValue);
+                            break;
+                        case "page":
+                            page = Integer.valueOf(paramValue);
+                            break;
+                        case "isDeleted":
+                            deleted = Boolean.valueOf(paramValue);
+                            break;
+                        case "ids":
+                            ids = paramValue;
+                            break;
+                        case "firstName":
+                            firstName = paramValue;
+                            break;
+                        case "lastName":
+                            lastName = paramValue;
+                            break;
+                        case "author":
+                            author = paramValue;
+                            break;
+                        case "country":
+                            country = paramValue;
+                            break;
+                        case "city":
+                            city = paramValue;
+                            break;
+                        case "ageFrom":
+                            ageFrom = Integer.valueOf(paramValue);
+                            break;
+                        case "ageTo":
+                            ageTo = Integer.valueOf(paramValue);
+                            break;
+                    }
                 }
             }
         }
@@ -161,4 +180,7 @@ public class AccountServiceImpl implements AccountService {
 
         return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
     }
+
+
+
 }

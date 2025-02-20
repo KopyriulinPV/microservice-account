@@ -161,10 +161,14 @@ public class AccountController {
             @RequestParam(name = "city", required = false) String city,
             @RequestParam(name = "ageFrom", required = false) Integer ageFrom,
             @RequestParam(name = "ageTo", required = false) Integer ageTo,
-            @RequestParam(name = "0", required = false) String unknownParam
+            @RequestParam(name = "0", required = false) String unknownParam1,
+            @RequestParam(name = "1", required = false) String unknownParam2,
+            @RequestParam(name = "2", required = false) String unknownParam3,
+            @RequestParam(name = "3", required = false) String unknownParam4,
+            @RequestParam(name = "4", required = false) String unknownParam5
     ) {
         try {
-            return accountService.findAccounts(unknownParam, size, page, isDeleted, ids, firstName, lastName, author,
+            return accountService.findAccounts(unknownParam1, unknownParam2, unknownParam3, unknownParam4, unknownParam5, size, page, isDeleted, ids, firstName, lastName, author,
                     country, city, ageFrom, ageTo);
         } catch (Exception ignore) {
         }
