@@ -38,7 +38,7 @@ public class RegistrationUserListener {
                         @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                         @Header(KafkaHeaders.RECEIVED_PARTITION) Integer partition,
                         @Header(KafkaHeaders.RECEIVED_TIMESTAMP) Long timestamp) {
-        log.info("Received message: {}", registrationEvent);
+        log.info("9999999999999999999999999999999999999999999999999999999999999999999", registrationEvent);
         log.info("Key: {}; Partition: {}; Topic: {}; Timestamp: {}", key, partition, topic, timestamp);
 
         Account account = accountMapper.registrationEventToAccount(registrationEvent);

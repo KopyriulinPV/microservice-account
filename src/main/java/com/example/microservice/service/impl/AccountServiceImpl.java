@@ -1,6 +1,7 @@
 package com.example.microservice.service.impl;
 
 import com.example.EventKafkaProducer;
+import com.example.RegistrationEvent;
 import com.example.microservice.dto.AccountResponseDto;
 import com.example.microservice.service.AccountService;
 import com.example.microservice.mapper.AccountMapper;
@@ -13,10 +14,12 @@ import com.example.microservice.repository.AccountSpecification;
 import com.example.microservice.utils.BeanUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -31,11 +34,14 @@ import java.util.UUID;
 /*@Import({EventKafkaProducer.class, KafkaProperties.class, EventKafkaProducerConfig.class})*/
 public class AccountServiceImpl implements AccountService {
 
+    @Value("${app.kafka.kafkaUpdateUserTopic}")
+    private String topicName;
+
     private final AccountRepository accountRepository;
 
     private final AccountMapper accountMapper;
 
-    /*private final EventKafkaProducer eventKafkaProducer;*/
+    private final KafkaTemplate<String, RegistrationEvent> kafkaTemplate;
 
 
     @Override
@@ -58,7 +64,8 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findById(id).get();
         account.setDeleted(true);
         account.setDeletionTimestamp(ZonedDateTime.now());
-        /*eventKafkaProducer.sendMessageUpdateUser(accountMapper.accountToRegistrationEvent(account));*/
+        kafkaTemplate.send(topicName, accountMapper.accountToRegistrationEvent(account));
+        /*eventKafkaProducer.sendMessageUpdateUser();*/
         accountRepository.save(account);
     }
 
