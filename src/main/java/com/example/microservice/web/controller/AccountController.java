@@ -40,13 +40,13 @@ public class AccountController {
 
     @GetMapping("/me")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
-    public AccountMeDto getCurrentAccount(Authentication authentication) {
+    public ResponseEntity<AccountMeDto> getCurrentAccount(Authentication authentication) {
         try {
-            return accountMapper.accountToAccountMeDto(accountService.getAccountById(
-                    AccountService.getAccountId(authentication)));
+            return ResponseEntity.ok(accountMapper.accountToAccountMeDto(accountService.getAccountById(
+                    AccountService.getAccountId(authentication))));
         } catch (Exception ignore) {
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
     @PutMapping("/me")
