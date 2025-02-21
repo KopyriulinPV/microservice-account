@@ -42,8 +42,8 @@ public class RegistrationUserListener {
         log.info("Key: {}; Partition: {}; Topic: {}; Timestamp: {}", key, partition, topic, timestamp);
 
         Account account = accountMapper.registrationEventToAccount(registrationEvent);
-        account.setDeleted(false);
-        account.setRegDate(ZonedDateTime.now());
+        /*account.setDeleted(false);
+        account.setRegDate(ZonedDateTime.now());*/
         accountRepository.save(account);
     }
 }
