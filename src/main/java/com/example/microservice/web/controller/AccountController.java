@@ -42,6 +42,7 @@ public class AccountController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<AccountMeDto> getCurrentAccount(Authentication authentication) {
         try {
+            System.out.println("11111111111111111111111111111111111111111111111111111111111");
             return ResponseEntity.ok(accountMapper.accountToAccountMeDto(accountService.getAccountById(
                     AccountService.getAccountId(authentication))));
         } catch (Exception ignore) {
