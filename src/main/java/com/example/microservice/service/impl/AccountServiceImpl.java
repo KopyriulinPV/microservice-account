@@ -64,8 +64,8 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findById(id).get();
         account.setDeleted(true);
         account.setDeletionTimestamp(ZonedDateTime.now());
+
         kafkaTemplate.send(topicName, accountMapper.accountToRegistrationEvent(account));
-        /*eventKafkaProducer.sendMessageUpdateUser();*/
         accountRepository.save(account);
     }
 
@@ -93,7 +93,7 @@ public class AccountServiceImpl implements AccountService {
         Account existedAccount = accountRepository.findById(account.getId()).get();
         BeanUtils.copyNonNullProperties(account, existedAccount);
 
-        /*eventKafkaProducer.sendMessageUpdateUser(accountMapper.accountToRegistrationEvent(existedAccount));*/
+        kafkaTemplate.send(topicName, accountMapper.accountToRegistrationEvent(existedAccount));
         existedAccount.setUpdatedOn(ZonedDateTime.now());
         return accountRepository.save(existedAccount);
     }
