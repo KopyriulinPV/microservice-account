@@ -1,6 +1,7 @@
 package com.example.microservice.service.impl;
 
 import com.example.EventKafkaProducer;
+import com.example.KafkaProperties;
 import com.example.RegistrationEvent;
 import com.example.microservice.dto.AccountResponseDto;
 import com.example.microservice.service.AccountService;
@@ -31,7 +32,6 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-/*@Import({EventKafkaProducer.class, KafkaProperties.class, EventKafkaProducerConfig.class})*/
 public class AccountServiceImpl implements AccountService {
 
     @Value("${app.kafka.kafkaUpdateUserTopic}")
@@ -42,7 +42,6 @@ public class AccountServiceImpl implements AccountService {
     private final AccountMapper accountMapper;
 
     private final KafkaTemplate<String, RegistrationEvent> kafkaTemplate;
-
 
     @Override
     public Account createAccount(Account account) {
