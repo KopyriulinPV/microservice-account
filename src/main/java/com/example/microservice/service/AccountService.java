@@ -17,6 +17,8 @@ public interface AccountService {
 
     Account getAccountById(UUID id);
 
+    Account getAccountByIdForMe(UUID id);
+
     void markAccountAsDeletedById(UUID id);
 
     void markAccountAsBlockedById(UUID id);

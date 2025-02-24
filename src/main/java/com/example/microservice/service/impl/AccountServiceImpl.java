@@ -58,6 +58,13 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findById(id).get();
     }
 
+    public Account getAccountByIdForMe(UUID id) {
+        Account account = accountRepository.findById(id).get();
+        account.setIsOnline(true);
+        accountRepository.save(account);
+        return account;
+    }
+
     @Override
     public void markAccountAsDeletedById(UUID id) {
         Account account = accountRepository.findById(id).get();
@@ -79,6 +86,7 @@ public class AccountServiceImpl implements AccountService {
     public String markLastOnlineTimeById(UUID id) {
         Account account = accountRepository.findById(id).get();
         account.setLastOnlineTime(ZonedDateTime.now());
+        account.setIsOnline(false);
         accountRepository.save(account);
         return "UUID успешно обработан";
     }

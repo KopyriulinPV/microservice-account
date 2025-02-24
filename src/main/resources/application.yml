@@ -6,6 +6,7 @@ app:
     kafkaUpdateUserTopic: "UPDATE_USER_TOPIC"
     kafkaRegisterTopic: "REGISTER_TOP"
     kafkaMessageGroupId: "kafka-message-group-id"
+    kafkaMessageGroupId2: "kafka-message-group-id2"
   integration:
     auth-url: ${TOKEN_VALIDATION_URL:http://localhost:8080}
   gateway-eureka:

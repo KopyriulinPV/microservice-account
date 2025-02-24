@@ -44,7 +44,7 @@ public class AccountController {
         try {
             System.out.println("11111111111111111111111111111111111111111111111111111111111");
             System.out.println("Вошел в getCurrentAccount");
-            return ResponseEntity.ok(accountMapper.accountToAccountMeDto(accountService.getAccountById(
+            return ResponseEntity.ok(accountMapper.accountToAccountMeDto(accountService.getAccountByIdForMe(
                     AccountService.getAccountId(authentication))));
         } catch (Exception ignore) {
         }
