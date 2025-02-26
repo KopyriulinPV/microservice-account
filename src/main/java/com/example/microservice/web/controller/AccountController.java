@@ -40,133 +40,66 @@ public class AccountController {
 
     @GetMapping("/me")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<AccountMeDto> getCurrentAccount(Authentication authentication) {
-        try {
-            System.out.println("11111111111111111111111111111111111111111111111111111111111");
-            System.out.println("Вошел в getCurrentAccount");
-            return ResponseEntity.ok(accountMapper.accountToAccountMeDto(accountService.getAccountByIdForMe(
-                    AccountService.getAccountId(authentication))));
-        } catch (Exception ignore) {
-        }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    public AccountMeDto getCurrentAccount(Authentication authentication) {
+            return accountMapper.accountToAccountMeDto(accountService.getAccountByIdForMe(
+                    AccountService.getAccountId(authentication)));
     }
 
     @PutMapping("/me")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public AccountMeDto updateAccountMe(Authentication authentication, @RequestBody AccountUpdateDto accountUpdateDto) {
-       try {
-           System.out.println("11111111111111111111111111111111111111111111111111111111111");
-           System.out.println("Вошел в updateAccountMe");
-            AccountMeDto accountMeDto = accountMapper
-                    .accountToAccountMeDto(accountService.
-                            update(accountMapper
-                                    .AccountUpdateDtoToAccount(AccountService.
-                                            getAccountId(authentication), accountUpdateDto)));
-            return accountMeDto;
-        } catch (Exception ignore) {
-
-        }
-        return null;
+        return accountMapper.accountToAccountMeDto(accountService.update(accountMapper
+                                    .AccountUpdateDtoToAccount(
+                                            AccountService.getAccountId(authentication), accountUpdateDto)));
     }
 
 
     @DeleteMapping("/me")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public void markAccountAsDeleted(Authentication authentication) {
-        try {
-            System.out.println("11111111111111111111111111111111111111111111111111111111111");
-            System.out.println("Вошел в markAccountAsDeleted");
             accountService.markAccountAsDeletedById(AccountService.getAccountId(authentication));
-        } catch (Exception ignore) {
-        }
     }
 
     @GetMapping
     public AccountResponseDto getAccount(@RequestParam String email) {
-        try {
-            System.out.println("11111111111111111111111111111111111111111111111111111111111");
-            System.out.println("Вошел в getAccount");
             return accountMapper.accountToAccountResponseDto(accountService.getAccountByEmail(email));
-        } catch (Exception ignore) {
-        }
-        return null;
     }
 
     @PostMapping
     public AccountMeDto createAccount(@RequestBody AccountMeDto accountMeDto) {
-        try {
-            System.out.println("11111111111111111111111111111111111111111111111111111111111");
-            System.out.println("Вошел в createAccount");
             return accountMapper.accountToAccountMeDto(accountService.createAccount(accountMapper
                     .accountMeDtoToAccount(accountMeDto)));
-        } catch (Exception ignore) {
-        }
-        return null;
     }
 
     @PostMapping("/lastAction/{uuid}")
     public String receiveUUIDFromPath(@PathVariable UUID uuid) {
-        try {
-            System.out.println("11111111111111111111111111111111111111111111111111111111111");
-            System.out.println("Вошел в receiveUUIDFromPath");
             return accountService.markLastOnlineTimeById(uuid);
-        } catch (Exception ignore) {
-        }
-        return null;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AccountDataDto> getAccountById(@PathVariable UUID id) {
-        try {
-            System.out.println("11111111111111111111111111111111111111111111111111111111111");
-            System.out.println("Вошел в getAccountById");
             return ResponseEntity.ok(accountMapper.accountToAccountDataDto(accountService.getAccountById(id)));
-        } catch (Exception ignore) {
-        }
-        return null;
     }
 
 
     @DeleteMapping("/{id}")
     public void markAccountAsDeletedById(@PathVariable UUID id) {
-        try {
-            System.out.println("11111111111111111111111111111111111111111111111111111111111");
-            System.out.println("Вошел в markAccountAsDeletedById");
             accountService.markAccountAsDeletedById(id);
-        } catch (Exception ignore) {
-        }
     }
 
     @PatchMapping("/{id}")
     public void markAccountAsBlockedById(@PathVariable UUID id) {
-        try {
-            System.out.println("11111111111111111111111111111111111111111111111111111111111");
-            System.out.println("Вошел в markAccountAsBlockedById");
             accountService.markAccountAsBlockedById(id);
-        } catch (Exception ignore) {
-        }
     }
 
     @GetMapping("/total")
     public Long getTotalAccountsCount() {
-        try {
-            System.out.println("11111111111111111111111111111111111111111111111111111111111");
-            System.out.println("Вошел в getTotalAccountsCount");
             return accountService.getTotalAccountsCount();
-        } catch (Exception ignore) {
-        }
-        return null;
     }
 
     @GetMapping("/undefined")
     public ResponseEntity<Void> getUndefined() {
-        try {
-            System.out.println("11111111111111111111111111111111111111111111111111111111111");
-            System.out.println("Вошел в getUndefined");
             return ResponseEntity.status(HttpStatus.OK).build();
-        } catch (Exception ignore) {
-        }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
@@ -189,14 +122,8 @@ public class AccountController {
             @RequestParam(name = "3", required = false) String unknownParam4,
             @RequestParam(name = "4", required = false) String unknownParam5
     ) {
-        try {
-            System.out.println("11111111111111111111111111111111111111111111111111111111111");
-            System.out.println("Вошел в searchAccounts");
             return accountService.findAccounts(unknownParam1, unknownParam2, unknownParam3, unknownParam4, unknownParam5, size, page, isDeleted, ids, firstName, lastName, author,
                     country, city, ageFrom, ageTo);
-        } catch (Exception ignore) {
-        }
-        return null;
     }
 
 

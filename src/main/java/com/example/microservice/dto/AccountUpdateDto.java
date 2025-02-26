@@ -19,5 +19,4 @@ public class AccountUpdateDto {
     private String emojiStatus;
     private String photo;
     private String profileCover;
-
 }

@@ -27,7 +27,7 @@ public interface AccountService {
 
     Long getTotalAccountsCount();
 
-    List<Account> searchAccounts(AccountFilter accountFilter);
+
 
     Page<Account> findAccounts(String unknownParam1, String unknownParam2, String unknownParam3, String unknownParam4,
                                String unknownParam5, Integer size, Integer page, Boolean isDeleted, String ids,

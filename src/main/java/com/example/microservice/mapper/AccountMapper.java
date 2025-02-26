@@ -5,18 +5,20 @@ import com.example.RegistrationEvent;
 import com.example.microservice.dto.*;
 import com.example.microservice.model.Account;
 import com.example.microservice.model.Role;
+import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AccountMapper {
 
     default Account accountMeDtoToAccount(AccountMeDto accountMeDto) {
@@ -33,40 +35,58 @@ public interface AccountMapper {
         account.setCity(accountMeDto.getCity());
         account.setCountry(accountMeDto.getCountry());
         account.setStatusCode(accountMeDto.getStatusCode());
-
         if (account.getRegDate() != null) {
-            account.setRegDate(ZonedDateTime.parse(accountMeDto.getRegDate()));
+            try {
+                account.setRegDate(ZonedDateTime.parse(accountMeDto.getRegDate()));
+            } catch (DateTimeParseException e) {
+                System.err.println("Ошибка парсинга RegDate: " + e.getMessage());
+            }
         }
-
         if (account.getBirthDate() != null) {
-            account.setBirthDate(ZonedDateTime.parse(accountMeDto.getBirthDate()));
+            try {
+                account.setBirthDate(ZonedDateTime.parse(accountMeDto.getBirthDate()));
+            } catch (DateTimeParseException e) {
+                System.err.println("Ошибка парсинга BirthDate: " + e.getMessage());
+            }
         }
-
         account.setMessagePermission(accountMeDto.getMessagePermission());
-
         if (account.getLastOnlineTime() != null) {
-            account.setLastOnlineTime(ZonedDateTime.parse(accountMeDto.getLastOnlineTime()));
+            try {
+                account.setLastOnlineTime(ZonedDateTime.parse(accountMeDto.getLastOnlineTime()));
+            } catch (DateTimeParseException e) {
+                System.err.println("Ошибка парсинга LastOnlineTime: " + e.getMessage());
+            }
         }
-
         account.setEmojiStatus(accountMeDto.getEmojiStatus());
 
         if (account.getCreatedOn() != null) {
-            account.setCreatedOn(ZonedDateTime.parse(accountMeDto.getCreatedOn()));
+            try {
+                account.setCreatedOn(ZonedDateTime.parse(accountMeDto.getCreatedOn()));
+            } catch (DateTimeParseException e) {
+                System.err.println("Ошибка парсинга CreatedOn: " + e.getMessage());
+            }
         }
-
         if (account.getUpdatedOn() != null) {
-            account.setUpdatedOn(ZonedDateTime.parse(accountMeDto.getUpdatedOn()));
+            try {
+                account.setUpdatedOn(ZonedDateTime.parse(accountMeDto.getUpdatedOn()));
+            } catch (DateTimeParseException e) {
+                System.err.println("Ошибка парсинга UpdatedOn: " + e.getMessage());
+            }
         }
-
         if (account.getDeletionTimestamp() != null) {
-            account.setDeletionTimestamp(ZonedDateTime.parse(accountMeDto.getDeletionTimestamp()));
+            try {
+                account.setDeletionTimestamp(ZonedDateTime.parse(accountMeDto.getDeletionTimestamp()));
+            } catch (DateTimeParseException e) {
+                System.err.println("Ошибка парсинга DeletionTimestamp: " + e.getMessage());
+            }
         }
-
         account.setDeleted(account.getDeleted());
         account.setBlocked(account.getBlocked());
         account.setIsOnline(account.getIsOnline());
 
-
+        account.setRoles(accountMeDto.getRoles().stream()
+                .map(Role::fromString)
+                .collect(Collectors.toSet()));
 
         return account;
     }
@@ -78,7 +98,6 @@ public interface AccountMapper {
         accountMeDto.setFirstName(account.getFirstName());
         accountMeDto.setLastName(account.getLastName());
         accountMeDto.setEmail(account.getEmail());
-        accountMeDto.setPassword(account.getPassword());
         accountMeDto.setPhone(account.getPhone());
         accountMeDto.setPhoto(account.getPhoto());
         accountMeDto.setProfileCover(account.getProfileCover());
@@ -220,16 +239,19 @@ public interface AccountMapper {
         account.setLastName(accountUpdateDto.getLastName());
 
         if (accountUpdateDto.getBirthDate() != null && !accountUpdateDto.getBirthDate().equals("none")) {
+            try {
             account.setBirthDate(ZonedDateTime.parse(accountUpdateDto.getBirthDate()));
+            } catch (DateTimeParseException e) {
+                System.err.println("Ошибка парсинга даты рождения: " + e.getMessage());
+            }
         }
 
         account.setPhone(accountUpdateDto.getPhone());
         account.setAbout(accountUpdateDto.getAbout());
         account.setCity(accountUpdateDto.getCity());
         account.setCountry(accountUpdateDto.getCountry());
-        if (accountUpdateDto.getBirthDate() != null) {
-            account.setEmojiStatus(accountUpdateDto.getEmojiStatus());
-        }
+
+        account.setEmojiStatus(accountUpdateDto.getEmojiStatus());
 
         account.setPhoto(accountUpdateDto.getPhoto());
         account.setProfileCover(accountUpdateDto.getProfileCover());
@@ -237,14 +259,13 @@ public interface AccountMapper {
         return account;
     }
 
-
-    RegistrationEvent AccountMeDtoToRegistrationEvent(AccountMeDto accountMeDto);
+    /*RegistrationEvent AccountMeDtoToRegistrationEvent(AccountMeDto accountMeDto);
 
     default AccountListResponse accountListToAccountListResponse(List<Account> accountList) {
         AccountListResponse response = new AccountListResponse();
         response.setNews(accountList.stream().map(this::accountToAccountResponseDto).collect(Collectors.toList()));
         return response;
-    }
+    }*/
 
     default Account registrationEventToAccount(RegistrationEvent registrationEvent) {
         Account account = new Account();
