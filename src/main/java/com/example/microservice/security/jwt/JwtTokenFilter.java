@@ -41,7 +41,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             String token = getToken(request);
             /*webClientSender.validateAuth(token).block()*/
 
-            if(token != null && true) {
+            if(token != null && webClientSender.validateAuth(token).block()) {
 
                 String[] parts = token.split("\\.");
 
