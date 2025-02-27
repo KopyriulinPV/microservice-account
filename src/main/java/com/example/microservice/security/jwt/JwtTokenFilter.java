@@ -1,6 +1,6 @@
 package com.example.microservice.security.jwt;
 
-import com.example.microservice.client.WebClientSender;
+import com.example.microservice.security.CheckTokenByOriginal;
 import com.example.microservice.security.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,8 +19,11 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.reactive.function.client.WebClient;
+
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -28,7 +33,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final UserDetailsServiceImpl userDetailsService;
 
-    private final WebClientSender webClientSender;
+    private final WebClient webClient;
+
+    @Value("${app.integration.auth-url}")
+    private String baseUrlForCheckRequestToken;
+
+    /*private final CheckTokenByOriginal checkTokenByOriginal;*/
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -40,8 +50,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         try {
             String token = getToken(request);
             /*webClientSender.validateAuth(token).block()*/
+            /*checkTokenByOriginal.getStatusToken(token)*/
 
-            if(token != null && true) {
+            if(token != null && validateTokenWithAuthService(token)) {
 
                 String[] parts = token.split("\\.");
 
@@ -67,10 +78,26 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         } catch (IllegalArgumentException e) {
             log.error("Невалидный JWT токен:", e);
         }
-
-
         filterChain.doFilter(request, response);
     }
+
+    public boolean validateTokenWithAuthService(String token) {
+        try {
+            String authServiceUrl = String.format("%s%s", baseUrlForCheckRequestToken, token);
+            // Отправляем запрос для проверки токена
+            Boolean response = webClient.post()
+                    .uri(authServiceUrl)
+                    .header("Authorization", "Bearer " + token) // Если сервис требует токен в заголовке
+                    .retrieve()
+                    .bodyToMono(Boolean.class)
+                    .block(); // Синхронное выполнение запроса
+
+            return response != null && response;
+        } catch (Exception e) {
+            return false; // Если произошла ошибка, токен считается невалидным
+        }
+    }
+
 
     private String getToken(HttpServletRequest request) {
         String headerAuth = request.getHeader(HttpHeaders.AUTHORIZATION);

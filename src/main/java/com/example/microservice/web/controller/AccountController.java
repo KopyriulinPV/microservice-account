@@ -105,7 +105,7 @@ public class AccountController {
 
     @GetMapping("/search")
     public Page<Account> searchAccounts(
-            @RequestParam(name = "size", defaultValue = "3", required = false) Integer size,
+            @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
             @RequestParam(name = "page", defaultValue = "1", required = false) Integer page,
             @RequestParam(name = "isDeleted", required = false) Boolean isDeleted,
             @RequestParam(name = "ids", required = false) String ids,

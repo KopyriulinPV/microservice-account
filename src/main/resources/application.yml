@@ -8,7 +8,7 @@ app:
     kafkaMessageGroupId: "kafka-message-group-id"
     kafkaMessageGroupId2: "kafka-message-group-id2"
   integration:
-    auth-url: ${TOKEN_VALIDATION_URL:http://localhost:8080}
+    auth-url: ${TOKEN_VALIDATION_URL:http://http://79.174.80.223:8085/api/v1/auth/validate}
   gateway-eureka:
     server: gateway-eureka-microservice
 
