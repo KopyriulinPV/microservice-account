@@ -61,49 +61,58 @@ public class AccountController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public AccountResponseDto getAccount(@RequestParam String email) {
             return accountMapper.accountToAccountResponseDto(accountService.getAccountByEmail(email));
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public AccountMeDto createAccount(@RequestBody AccountMeDto accountMeDto) {
             return accountMapper.accountToAccountMeDto(accountService.createAccount(accountMapper
                     .accountMeDtoToAccount(accountMeDto)));
     }
 
     @PostMapping("/lastAction/{uuid}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public String receiveUUIDFromPath(@PathVariable UUID uuid) {
             return accountService.markLastOnlineTimeById(uuid);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<AccountDataDto> getAccountById(@PathVariable UUID id) {
             return ResponseEntity.ok(accountMapper.accountToAccountDataDto(accountService.getAccountById(id)));
     }
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public void markAccountAsDeletedById(@PathVariable UUID id) {
             accountService.markAccountAsDeletedById(id);
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public void markAccountAsBlockedById(@PathVariable UUID id) {
             accountService.markAccountAsBlockedById(id);
     }
 
     @GetMapping("/total")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public Long getTotalAccountsCount() {
             return accountService.getTotalAccountsCount();
     }
 
     @GetMapping("/undefined")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Void> getUndefined() {
             return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 
     @GetMapping("/search")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public Page<Account> searchAccounts(
             @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
             @RequestParam(name = "page", defaultValue = "1", required = false) Integer page,
