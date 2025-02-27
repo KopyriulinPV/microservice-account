@@ -246,7 +246,13 @@ public class AccountServiceImpl implements AccountService {
         if (lastName != null) {
             spec = spec.and(AccountSpecifications.byLastName(lastName));
         }
-        /*author*/
+        if (author != null) {
+            spec = spec.and(AccountSpecifications.byFirstName(author));
+        }
+        if (author != null) {
+            spec = spec.and(AccountSpecifications.byLastName(author));
+        }
+
         if (country != null) {
             spec = spec.and(AccountSpecifications.byCountry(country));
         }
