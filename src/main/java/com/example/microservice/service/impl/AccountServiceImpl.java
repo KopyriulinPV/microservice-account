@@ -252,7 +252,6 @@ public class AccountServiceImpl implements AccountService {
         if (author != null) {
             spec = spec.and(AccountSpecifications.byLastName(author));
         }
-
         if (country != null) {
             spec = spec.and(AccountSpecifications.byCountry(country));
         }
