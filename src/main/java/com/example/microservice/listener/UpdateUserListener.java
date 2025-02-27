@@ -24,10 +24,6 @@ public class UpdateUserListener {
 
     private final AccountMapper accountMapper;
 
-    /*@KafkaListener(topics = "${app.kafka.kafkaRegisterTopic}",
-            containerFactory = "kafkaRegistrationConcurrentKafkaListenerContainerFactory")*/
-
-
 
     @KafkaListener(topics = "${app.kafka.kafkaUpdateUserTopic}",
             groupId = "${app.kafka.kafkaMessageGroupId2}",

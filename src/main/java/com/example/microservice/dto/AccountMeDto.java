@@ -10,15 +10,10 @@ import java.util.Set;
 public class AccountMeDto {
 
     private String id;
-
     private String firstName;
-
     private String lastName;
-
     private String email;
-
     private String password;
-
     private String phone;
     private String photo;
     private String profileCover;
@@ -37,7 +32,6 @@ public class AccountMeDto {
     private Boolean deleted;
     private Boolean blocked;
     private Boolean isOnline;
-
     private Set<String> roles;
 
 }

@@ -9,11 +9,8 @@ import java.util.Set;
 public class AccountResponseDto {
 
     private String id;
-
     private String firstName;
-
     private String lastName;
-
     private String email;
     private String password;
     private Set<String> roles;

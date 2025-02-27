@@ -25,9 +25,6 @@ public class RegistrationUserListener {
 
     private final AccountMapper accountMapper;
 
-    /*@KafkaListener(topics = "${app.kafka.kafkaRegisterTopic}",
-            containerFactory = "kafkaRegistrationConcurrentKafkaListenerContainerFactory")*/
-
 
 
     @KafkaListener(topics = "${app.kafka.kafkaRegisterTopic}",

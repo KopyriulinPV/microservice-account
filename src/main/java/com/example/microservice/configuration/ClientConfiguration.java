@@ -13,18 +13,4 @@ public class ClientConfiguration {
         return builder.build();
     }
 
-    /*@Bean
-    public WebClient webClient(@Value("${app.integration.auth-url}") String authUrl) {
-        return WebClient.builder()
-                .baseUrl(authUrl)
-                .build();
-    }*/
-
-  /*  @Bean
-    public WebClient checkTokenWebClient() {
-        return WebClient
-                .builder()
-                .baseUrl(baseUrlForCheckRequestToken)
-                .build();
-    }*/
 }
