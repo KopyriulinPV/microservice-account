@@ -54,17 +54,8 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/account").permitAll()
-                        .requestMatchers("/api/v1/account/lastAction/**").permitAll()
-                        .requestMatchers("/api/v1/account/{id}").permitAll()
-                        .requestMatchers("/api/v1/account/total").permitAll()
-                        .requestMatchers("/api/v1/account/search/**").permitAll()
-                        .requestMatchers("/api/v1/account/search").permitAll()
-                        .requestMatchers("/api/v1/account/search2/**").permitAll()
-                        .requestMatchers("/api/v1/account/search2").permitAll()
-                        .anyRequest().authenticated()
+        http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated()
                 )
-                /*.exceptionHandling(configurer -> configurer.authenticationEntryPoint(jwtAuthenticationEntryPoint))*/
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
@@ -74,3 +65,14 @@ public class SecurityConfiguration {
         return http.build();
     }
 }
+
+/*http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/account").permitAll()
+                        .requestMatchers("/api/v1/account/lastAction/**").permitAll()
+                        .requestMatchers("/api/v1/account/{id}").permitAll()
+                        .requestMatchers("/api/v1/account/total").permitAll()
+                        .requestMatchers("/api/v1/account/search/**").permitAll()
+                        .requestMatchers("/api/v1/account/search").permitAll()
+                        .requestMatchers("/api/v1/account/search2/**").permitAll()
+                        .requestMatchers("/api/v1/account/search2").permitAll()
+                        .anyRequest().authenticated()
+                )    */

@@ -1,6 +1,5 @@
 package com.example.microservice.security.jwt;
 
-import com.example.microservice.security.CheckTokenByOriginal;
 import com.example.microservice.security.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +21,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
 import java.util.Base64;
-import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -38,8 +35,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Value("${app.integration.auth-url}")
     private String baseUrlForCheckRequestToken;
 
-    /*private final CheckTokenByOriginal checkTokenByOriginal;*/
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
@@ -49,8 +44,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         try {
             String token = getToken(request);
-            /*webClientSender.validateAuth(token).block()*/
-            /*checkTokenByOriginal.getStatusToken(token)*/
 
             if(token != null && validateTokenWithAuthService(token)) {
 
