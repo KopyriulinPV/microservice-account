@@ -135,19 +135,29 @@ public class AccountController {
                     country, city, ageFrom, ageTo);
     }
 
-
-   /*@Operation(summary = "Поиск аккаунта по статус-коду отношений в микросервисе Friends. Этот контроллер ссылается на глобальный поиск аккаунтов /search, так как в нем учтен statusCode.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(type = "object", additionalProperties = @Schema(type = "object")))
-            })
-    })
     @GetMapping("/search/statusCode")
-    public ResponseEntity<Map<String, Object>> searchByStatusCode(
-            @Parameter(description = "Все параметры поиска в виде JSON объекта") @RequestParam Map<String, String> allParams
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
+    public Page<Account> searchByStatusCode(
+            @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
+            @RequestParam(name = "page", defaultValue = "1", required = false) Integer page,
+            @RequestParam(name = "isDeleted", required = false) Boolean isDeleted,
+            @RequestParam(name = "ids", required = false) String ids,
+            @RequestParam(name = "firstName", required = false) String firstName,
+            @RequestParam(name = "lastName", required = false) String lastName,
+            @RequestParam(name = "author", required = false) String author,
+            @RequestParam(name = "country", required = false) String country,
+            @RequestParam(name = "city", required = false) String city,
+            @RequestParam(name = "ageFrom", required = false) Integer ageFrom,
+            @RequestParam(name = "ageTo", required = false) Integer ageTo,
+            @RequestParam(name = "0", required = false) String unknownParam1,
+            @RequestParam(name = "1", required = false) String unknownParam2,
+            @RequestParam(name = "2", required = false) String unknownParam3,
+            @RequestParam(name = "3", required = false) String unknownParam4,
+            @RequestParam(name = "4", required = false) String unknownParam5
     ) {
+        return accountService.findAccounts(unknownParam1, unknownParam2, unknownParam3, unknownParam4, unknownParam5, size, page, isDeleted, ids, firstName, lastName, author,
+                country, city, ageFrom, ageTo);
+    }
 
-        return new ResponseEntity<>(accountService.searchAccounts(allParams), HttpStatus.OK);
-    }*/
 }
 
