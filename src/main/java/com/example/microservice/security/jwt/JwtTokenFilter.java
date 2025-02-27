@@ -35,6 +35,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Value("${app.integration.auth-url}")
     private String baseUrlForCheckRequestToken;
 
+
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
