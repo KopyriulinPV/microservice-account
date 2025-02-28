@@ -233,6 +233,26 @@ public class AccountServiceImpl implements AccountService {
             }
         }
 
+        if (author != null) {
+            if (author != null) {
+                Specification<Account> spec = Specification.where(null);
+                String[] params = author.split(" ");
+                for (String param : params) {
+                    spec = spec.and(AccountSpecifications.byFirstName(param))
+                            .or(AccountSpecifications.byLastName(param));
+                }
+                if (deleted != null) {
+                    spec = spec.and(AccountSpecifications.byIsDeleted(deleted));
+                }
+                try {
+                    return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
+                } catch (DataAccessException e) {
+                    log.error("Error while finding accounts: {}", e.getMessage());
+                    throw new RuntimeException("Ошибка при поиске аккаунтов. Пожалуйста, попробуйте позже.");
+                }
+            }
+        }
+
         Specification<Account> spec = Specification.where(null);
         if (deleted != null) {
             spec = spec.and(AccountSpecifications.byIsDeleted(deleted));
@@ -245,12 +265,6 @@ public class AccountServiceImpl implements AccountService {
         }
         if (lastName != null) {
             spec = spec.and(AccountSpecifications.byLastName(lastName));
-        }
-        if (author != null) {
-            spec = spec.and(AccountSpecifications.byFirstName(author));
-        }
-        if (author != null) {
-            spec = spec.and(AccountSpecifications.byLastName(author));
         }
         if (country != null) {
             spec = spec.and(AccountSpecifications.byCountry(country));
@@ -265,7 +279,7 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
         } catch (DataAccessException e) {
             log.error("Error while finding accounts: {}", e.getMessage());
-            throw new RuntimeException("Ошибка при нахождении аккаунтов. Пожалуйста, попробуйте позже.");
+            throw new RuntimeException("Ошибка при поиске аккаунтов. Пожалуйста, попробуйте позже.");
         }
     }
 
