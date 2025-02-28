@@ -41,6 +41,7 @@ public class RegistrationUserListener {
         Account account = accountMapper.registrationEventToAccount(registrationEvent);
         account.setDeleted(false);
         account.setRegDate(ZonedDateTime.now());
+        account.setCreatedOn(ZonedDateTime.now());
         accountRepository.save(account);
     }
 }
