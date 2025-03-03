@@ -4,6 +4,7 @@ import com.example.EventKafkaProducer;
 import com.example.KafkaProperties;
 import com.example.RegistrationEvent;
 import com.example.microservice.dto.AccountResponseDto;
+import com.example.microservice.dto.FriendShortDto;
 import com.example.microservice.service.AccountService;
 import com.example.microservice.mapper.AccountMapper;
 import com.example.microservice.repository.AccountSpecifications;
@@ -15,8 +16,10 @@ import com.example.microservice.repository.AccountSpecification;
 import com.example.microservice.utils.BeanUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,11 +28,14 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+import org.json.JSONArray;
 
 @Slf4j
 @Service
@@ -44,6 +50,8 @@ public class AccountServiceImpl implements AccountService {
     private final AccountMapper accountMapper;
 
     private final KafkaTemplate<String, RegistrationEvent> kafkaTemplate;
+
+    private final WebClient webClient;
 
     @Override
     public Account createAccount(Account account) {
@@ -231,6 +239,49 @@ public class AccountServiceImpl implements AccountService {
                     }
                 }
             }
+        }
+
+        if (statusCode != null && (statusCode.equals("FRIEND"))) {
+            String baseUrl = "http://89.111.155.206:8765/api/v1/friends";
+            System.out.println("55555555555555555555555555555555555555555555555555555555555555555555555555555");
+            try {
+                StringBuilder ids2 = new StringBuilder();
+                String response = webClient.get()
+                        .uri(baseUrl + "?statusCode=FRIEND&size=1000000")
+                        .header("Authorization", "Bearer " + AccountService.getToken(authorizationHeader)) // Если сервис требует токен в заголовке
+                        .retrieve()
+                        .bodyToMono(new ParameterizedTypeReference<String>() {})
+                        .block();
+                JSONObject jsonObject = new JSONObject(response);
+                JSONArray contentArray = jsonObject.getJSONArray("content");
+                for (int i = 0; i < contentArray.length(); i++) {
+                    JSONObject friendObject = contentArray.getJSONObject(i);
+                    String friendId = friendObject.getString("friendId");
+                    System.out.println(friendId);
+                    ids2.append(friendId);
+                    if (i < contentArray.length() - 1) {
+                        ids2.append(",");
+                    }
+                }
+                System.out.println(ids2);
+                Specification<Account> spec = Specification.where(null);
+                if (ids2 != null) {
+                    spec = spec.and(AccountSpecifications.byIds(ids2.toString()));
+                }
+                if (firstName != null) {
+                    spec = spec.and(AccountSpecifications.byFirstName(firstName));
+                }
+                try {
+                    return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
+                } catch (DataAccessException e) {
+                    log.error("Error while finding accounts: {}", e.getMessage());
+                    throw new RuntimeException("Ошибка при поиске аккаунтов. Пожалуйста, попробуйте позже.");
+                }
+            } catch (Exception e) {
+                log.error("Error while fetching account by statusCode FRIEND 6666666666666666666666666666666666666666666666666666666666666666666666666666666666: {}", e.getMessage());
+                throw new RuntimeException("Ошибка при получении аккаунтов по статусу FRIEND. Пожалуйста, попробуйте позже.");
+            }
+
         }
 
         if (author != null) {
