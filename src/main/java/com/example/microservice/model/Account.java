@@ -71,7 +71,6 @@ public class Account {
     @Column(name = "emoji_status")
     private String emojiStatus;
 
-    //Не используется
     @Column(name = "created_on")
     private ZonedDateTime createdOn;
 
@@ -84,6 +83,7 @@ public class Account {
     @Column(name = "deleted")
     private Boolean deleted;
 
+    //Не используется
     @Column(name = "blocked")
     private Boolean blocked;
 

@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -114,6 +115,7 @@ public class AccountController {
     @GetMapping("/search")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public Page<Account> searchAccounts(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,
             @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
             @RequestParam(name = "page", defaultValue = "1", required = false) Integer page,
             @RequestParam(name = "isDeleted", required = false) Boolean isDeleted,
@@ -129,15 +131,17 @@ public class AccountController {
             @RequestParam(name = "1", required = false) String unknownParam2,
             @RequestParam(name = "2", required = false) String unknownParam3,
             @RequestParam(name = "3", required = false) String unknownParam4,
-            @RequestParam(name = "4", required = false) String unknownParam5
+            @RequestParam(name = "4", required = false) String unknownParam5,
+            @RequestParam(name = "statusCode", required = false) String statusCode
     ) {
-            return accountService.findAccounts(unknownParam1, unknownParam2, unknownParam3, unknownParam4, unknownParam5, size, page, isDeleted, ids, firstName, lastName, author,
-                    country, city, ageFrom, ageTo);
+            return accountService.findAccounts(authorizationHeader, unknownParam1, unknownParam2, unknownParam3, unknownParam4, unknownParam5, size, page, isDeleted, ids, firstName, lastName, author,
+                    country, city, ageFrom, ageTo, statusCode);
     }
 
     @GetMapping("/search/statusCode")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public Page<Account> searchByStatusCode(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,
             @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
             @RequestParam(name = "page", defaultValue = "1", required = false) Integer page,
             @RequestParam(name = "isDeleted", required = false) Boolean isDeleted,
@@ -153,10 +157,12 @@ public class AccountController {
             @RequestParam(name = "1", required = false) String unknownParam2,
             @RequestParam(name = "2", required = false) String unknownParam3,
             @RequestParam(name = "3", required = false) String unknownParam4,
-            @RequestParam(name = "4", required = false) String unknownParam5
+            @RequestParam(name = "4", required = false) String unknownParam5,
+            @RequestParam(name = "statusCode", required = false) String statusCode
     ) {
-        return accountService.findAccounts(unknownParam1, unknownParam2, unknownParam3, unknownParam4, unknownParam5, size, page, isDeleted, ids, firstName, lastName, author,
-                country, city, ageFrom, ageTo);
+
+        return accountService.findAccounts(authorizationHeader, unknownParam1, unknownParam2, unknownParam3, unknownParam4, unknownParam5, size, page, isDeleted, ids, firstName, lastName, author,
+                country, city, ageFrom, ageTo, statusCode);
     }
 
 }

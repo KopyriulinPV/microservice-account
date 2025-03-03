@@ -29,15 +29,23 @@ public interface AccountService {
 
 
 
-    Page<Account> findAccounts(String unknownParam1, String unknownParam2, String unknownParam3, String unknownParam4,
+    Page<Account> findAccounts(String authorizationHeader, String unknownParam1, String unknownParam2, String unknownParam3, String unknownParam4,
                                String unknownParam5, Integer size, Integer page, Boolean isDeleted, String ids,
                                String firstName, String lastName, String author, String country, String city,
-                               Integer ageFrom, Integer ageTo);
+                               Integer ageFrom, Integer ageTo, String statusCode);
 
     Account update(Account account);
 
     static UUID getAccountId(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return UUID.fromString(userDetails.getUsername());
+    }
+
+    static String getToken(String authorizationHeader) {
+        String token = null;
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            return token = authorizationHeader.substring(7);
+        }
+        return null;
     }
 }

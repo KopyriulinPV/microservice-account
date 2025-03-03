@@ -178,11 +178,11 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-    public Page<Account> findAccounts(String unknownParam1, String unknownParam2, String unknownParam3,
+    public Page<Account> findAccounts(String authorizationHeader, String unknownParam1, String unknownParam2, String unknownParam3,
                                       String unknownParam4, String unknownParam5, Integer size, Integer page,
                                       Boolean deleted, String ids, String firstName,
                                       String lastName, String author, String country,
-                                      String city, Integer ageFrom, Integer ageTo) {
+                                      String city, Integer ageFrom, Integer ageTo, String statusCode) {
 
         String[] unknownParams = {unknownParam1, unknownParam2, unknownParam3, unknownParam4, unknownParam5};
 
