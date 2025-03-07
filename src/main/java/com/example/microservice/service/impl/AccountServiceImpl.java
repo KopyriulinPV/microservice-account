@@ -252,7 +252,7 @@ public class AccountServiceImpl implements AccountService {
                 Object principal = authentication.getPrincipal();
                 UserDetails userDetails = (UserDetails) principal;
                 String meId = userDetails.getUsername();
-                String ids3plusMe = new String(ids3 + "," + meId);
+                String ids3plusMe = new String(ids3); /*+ "," + meId*/
                 Specification<Account> spec = Specification.where(null);
                 if (ids3plusMe != null) {
                     spec = spec.and(AccountSpecifications.byNotInIds(ids3plusMe));
