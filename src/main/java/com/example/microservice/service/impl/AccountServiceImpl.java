@@ -28,6 +28,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -247,9 +248,14 @@ public class AccountServiceImpl implements AccountService {
             String baseUrl = "http://89.111.155.206:8765/api/v1/friends?statusCode=FRIEND&size=1000000";
             try {
                 String ids3 = getIdsFromMsFriends(baseUrl, authorizationHeader);
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                Object principal = authentication.getPrincipal();
+                UserDetails userDetails = (UserDetails) principal;
+                String meId = userDetails.getUsername();
+                String ids3plusMe = new String(ids3 + "," + meId);
                 Specification<Account> spec = Specification.where(null);
-                if (ids3 != null) {
-                    spec = spec.and(AccountSpecifications.byNotInIds(ids3));
+                if (ids3plusMe != null) {
+                    spec = spec.and(AccountSpecifications.byNotInIds(ids3plusMe));
                 }
                 if (deleted != null) {
                     spec = spec.and(AccountSpecifications.byIsDeleted(deleted));
