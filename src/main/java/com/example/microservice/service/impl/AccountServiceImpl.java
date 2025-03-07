@@ -1,5 +1,6 @@
 package com.example.microservice.service.impl;
 
+import ch.qos.logback.core.joran.conditional.IfAction;
 import com.example.EventKafkaProducer;
 import com.example.KafkaProperties;
 import com.example.RegistrationEvent;
@@ -16,6 +17,7 @@ import com.example.microservice.repository.AccountSpecification;
 import com.example.microservice.utils.BeanUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.common.protocol.types.Field;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Import;
@@ -161,7 +163,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Long getTotalAccountsCount() {
         try {
-        return accountRepository.count();
+            return accountRepository.count();
         } catch (DataAccessException e) {
             log.error("Error while counting accounts: {}", e.getMessage());
             throw new RuntimeException("Ошибка при подсчете аккаунтов. Пожалуйста, попробуйте позже.");
@@ -170,13 +172,13 @@ public class AccountServiceImpl implements AccountService {
 
     public Account update(Account account) {
         try {
-        Account existedAccount = accountRepository.findById(account.getId()).orElseThrow(() ->
-                new NoSuchElementException("Аккаунт с ID " + account.getId() + " не найден."));
-        BeanUtils.copyNonNullProperties(account, existedAccount);
+            Account existedAccount = accountRepository.findById(account.getId()).orElseThrow(() ->
+                    new NoSuchElementException("Аккаунт с ID " + account.getId() + " не найден."));
+            BeanUtils.copyNonNullProperties(account, existedAccount);
 
-        kafkaTemplate.send(topicName, accountMapper.accountToRegistrationEvent(existedAccount));
-        existedAccount.setUpdatedOn(ZonedDateTime.now());
-        return accountRepository.save(existedAccount);
+            kafkaTemplate.send(topicName, accountMapper.accountToRegistrationEvent(existedAccount));
+            existedAccount.setUpdatedOn(ZonedDateTime.now());
+            return accountRepository.save(existedAccount);
         } catch (NoSuchElementException e) {
             log.warn(e.getMessage());
             throw new RuntimeException(e.getMessage());
@@ -241,32 +243,26 @@ public class AccountServiceImpl implements AccountService {
             }
         }
 
-        if (statusCode != null && (statusCode.equals("FRIEND"))) {
-            String baseUrl = "http://89.111.155.206:8765/api/v1/friends";
+        if (statusCode != null && ((statusCode.equals("FRIEND")) || statusCode.equals("REQUEST_FROM") ||
+                statusCode.equals("REQUEST_TO"))) {
+            String baseUrl = new String();
+            switch (statusCode) {
+                case "FRIEND":
+                    baseUrl = "http://89.111.155.206:8765/api/v1/friends?statusCode=FRIEND&size=1000000";
+                    break;
+                case "REQUEST_FROM":
+                    baseUrl = "http://89.111.155.206:8765/api/v1/friends?statusCode=REQUEST_FROM&size=1000000";
+                    break;
+                case "REQUEST_TO":
+                    baseUrl = "http://89.111.155.206:8765/api/v1/friends?statusCode=REQUEST_TO&size=1000000";
+                    break;
+            }
             System.out.println("55555555555555555555555555555555555555555555555555555555555555555555555555555");
             try {
-                StringBuilder ids2 = new StringBuilder();
-                String response = webClient.get()
-                        .uri(baseUrl + "?statusCode=FRIEND&size=1000000")
-                        .header("Authorization", "Bearer " + AccountService.getToken(authorizationHeader)) // Если сервис требует токен в заголовке
-                        .retrieve()
-                        .bodyToMono(new ParameterizedTypeReference<String>() {})
-                        .block();
-                JSONObject jsonObject = new JSONObject(response);
-                JSONArray contentArray = jsonObject.getJSONArray("content");
-                for (int i = 0; i < contentArray.length(); i++) {
-                    JSONObject friendObject = contentArray.getJSONObject(i);
-                    String friendId = friendObject.getString("friendId");
-                    System.out.println(friendId);
-                    ids2.append(friendId);
-                    if (i < contentArray.length() - 1) {
-                        ids2.append(",");
-                    }
-                }
-                System.out.println(ids2);
+                String ids2 = getIdsFromMsFriends(baseUrl, authorizationHeader);
                 Specification<Account> spec = Specification.where(null);
                 if (ids2 != null) {
-                    spec = spec.and(AccountSpecifications.byIds(ids2.toString()));
+                    spec = spec.and(AccountSpecifications.byIds(ids2));
                 }
                 if (firstName != null) {
                     spec = spec.and(AccountSpecifications.byFirstName(firstName));
@@ -327,12 +323,35 @@ public class AccountServiceImpl implements AccountService {
             spec = spec.and(AccountSpecifications.byAgeRange(ageFrom, ageTo));
         }
         try {
-        return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
+            return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
         } catch (DataAccessException e) {
             log.error("Error while finding accounts: {}", e.getMessage());
             throw new RuntimeException("Ошибка при поиске аккаунтов. Пожалуйста, попробуйте позже.");
         }
     }
 
-
+    public String getIdsFromMsFriends(String baseUrl, String authorizationHeader) {
+        StringBuilder ids2 = new StringBuilder();
+        String response = webClient.get()
+                .uri(baseUrl)
+                .header("Authorization", "Bearer " + AccountService.getToken(authorizationHeader))
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<String>() {
+                })
+                .block();
+        JSONObject jsonObject = new JSONObject(response);
+        JSONArray contentArray = jsonObject.getJSONArray("content");
+        for (int i = 0; i < contentArray.length(); i++) {
+            JSONObject friendObject = contentArray.getJSONObject(i);
+            String friendId = friendObject.getString("friendId");
+            System.out.println(friendId);
+            ids2.append(friendId);
+            if (i < contentArray.length() - 1) {
+                ids2.append(",");
+            }
+        }
+        System.out.println(ids2);
+        return ids2.toString();
+    }
 }
+
