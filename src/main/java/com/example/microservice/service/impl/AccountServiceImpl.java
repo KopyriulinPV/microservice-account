@@ -192,7 +192,7 @@ public class AccountServiceImpl implements AccountService {
                                       String unknownParam4, String unknownParam5, Integer size, Integer page,
                                       Boolean deleted, String ids, String firstName,
                                       String lastName, String author, String country,
-                                      String city, Integer ageFrom, Integer ageTo, String statusCode) {
+                                      String city, Integer ageFrom, Integer ageTo, String statusCode, Boolean showFriends) {
 
         String[] unknownParams = {unknownParam1, unknownParam2, unknownParam3, unknownParam4, unknownParam5};
 
@@ -242,6 +242,30 @@ public class AccountServiceImpl implements AccountService {
                 }
             }
         }
+
+        if (showFriends != null) {
+            String baseUrl = "http://89.111.155.206:8765/api/v1/friends?statusCode=FRIEND&size=1000000";
+            try {
+                String ids3 = getIdsFromMsFriends(baseUrl, authorizationHeader);
+                Specification<Account> spec = Specification.where(null);
+                if (ids3 != null) {
+                    spec = spec.and(AccountSpecifications.byNotInIds(ids3));
+                }
+                if (deleted != null) {
+                    spec = spec.and(AccountSpecifications.byIsDeleted(deleted));
+                }
+                try {
+                    return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
+                } catch (DataAccessException e) {
+                    log.error("Error while finding accounts: {}", e.getMessage());
+                    throw new RuntimeException("Ошибка при поиске аккаунтов. Пожалуйста, попробуйте позже.");
+                }
+            } catch (Exception e) {
+                log.error("Error while fetching account by statusCode FRIEND 6666666666666666666666666666666666666666666666666666666666666666666666666666666666: {}", e.getMessage());
+                throw new RuntimeException("Ошибка при получении аккаунтов по статусу FRIEND. Пожалуйста, попробуйте позже.");
+            }
+        }
+
 
         if (statusCode != null && ((statusCode.equals("FRIEND")) || statusCode.equals("REQUEST_FROM") ||
                 statusCode.equals("REQUEST_TO"))) {

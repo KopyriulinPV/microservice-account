@@ -32,7 +32,7 @@ public interface AccountService {
     Page<Account> findAccounts(String authorizationHeader, String unknownParam1, String unknownParam2, String unknownParam3, String unknownParam4,
                                String unknownParam5, Integer size, Integer page, Boolean isDeleted, String ids,
                                String firstName, String lastName, String author, String country, String city,
-                               Integer ageFrom, Integer ageTo, String statusCode);
+                               Integer ageFrom, Integer ageTo, String statusCode, Boolean showFriends);
 
     Account update(Account account);
 

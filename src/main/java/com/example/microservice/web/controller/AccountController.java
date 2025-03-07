@@ -132,10 +132,11 @@ public class AccountController {
             @RequestParam(name = "2", required = false) String unknownParam3,
             @RequestParam(name = "3", required = false) String unknownParam4,
             @RequestParam(name = "4", required = false) String unknownParam5,
-            @RequestParam(name = "statusCode", required = false) String statusCode
+            @RequestParam(name = "statusCode", required = false) String statusCode,
+            @RequestParam(name = "showFriends", required = false) Boolean showFriends
     ) {
             return accountService.findAccounts(authorizationHeader, unknownParam1, unknownParam2, unknownParam3, unknownParam4, unknownParam5, size, page, isDeleted, ids, firstName, lastName, author,
-                    country, city, ageFrom, ageTo, statusCode);
+                    country, city, ageFrom, ageTo, statusCode, showFriends);
     }
 
     @GetMapping("/search/statusCode")
@@ -158,11 +159,12 @@ public class AccountController {
             @RequestParam(name = "2", required = false) String unknownParam3,
             @RequestParam(name = "3", required = false) String unknownParam4,
             @RequestParam(name = "4", required = false) String unknownParam5,
-            @RequestParam(name = "statusCode", required = false) String statusCode
+            @RequestParam(name = "statusCode", required = false) String statusCode,
+            @RequestParam(name = "showFriends", required = false) Boolean showFriends
     ) {
 
         return accountService.findAccounts(authorizationHeader, unknownParam1, unknownParam2, unknownParam3, unknownParam4, unknownParam5, size, page, isDeleted, ids, firstName, lastName, author,
-                country, city, ageFrom, ageTo, statusCode);
+                country, city, ageFrom, ageTo, statusCode, showFriends);
     }
 
 }

@@ -64,4 +64,20 @@ public class AccountSpecifications {
             return root.get("id").in(uuidArray);
         };
     }
+
+    public static Specification<Account> byNotInIds(String ids) {
+        return (root, query, criteriaBuilder) -> {
+            if (ids == null || ids.isEmpty()) {
+                // Если передано пустое значение, возвращаем все записи (конъюнкция)
+                return criteriaBuilder.conjunction();
+            }
+            String[] idArray = ids.split(",");
+            // Преобразуем строковые ID в массив UUID
+            UUID[] uuidArray = Arrays.stream(idArray)
+                    .map(UUID::fromString)
+                    .toArray(UUID[]::new);
+            // Возвращаем условие, которое исключает указанные ID
+            return criteriaBuilder.not(root.get("id").in(uuidArray));
+        };
+    }
 }
