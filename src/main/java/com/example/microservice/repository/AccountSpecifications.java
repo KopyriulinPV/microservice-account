@@ -33,7 +33,7 @@ public class AccountSpecifications {
 
             if (ageTo != null) {
                 ZonedDateTime currentDate = ZonedDateTime.now();
-                ZonedDateTime toDate = currentDate.minusYears(ageTo).plusDays(1);
+                ZonedDateTime toDate = currentDate.minusYears(ageTo).plusDays(2);
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("birthDate"), toDate));
             }
 
