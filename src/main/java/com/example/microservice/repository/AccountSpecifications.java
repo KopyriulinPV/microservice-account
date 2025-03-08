@@ -28,13 +28,13 @@ public class AccountSpecifications {
             if (ageFrom != null) {
                 ZonedDateTime currentDate = ZonedDateTime.now();
                 ZonedDateTime fromDate = currentDate.minusYears(ageFrom);
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("birthDate"), fromDate));
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("birthDate"), fromDate));
             }
 
             if (ageTo != null) {
                 ZonedDateTime currentDate = ZonedDateTime.now();
-                ZonedDateTime toDate = currentDate.minusYears(ageTo).plusDays(364);
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("birthDate"), toDate));
+                ZonedDateTime toDate = currentDate.minusYears(ageTo).plusDays(1);
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("birthDate"), toDate));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
