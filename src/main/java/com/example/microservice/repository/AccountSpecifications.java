@@ -5,6 +5,7 @@ import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,14 +26,14 @@ public class AccountSpecifications {
             List<Predicate> predicates = new ArrayList<>();
 
             if (ageFrom != null) {
-                LocalDateTime currentDate = LocalDateTime.now();
-                LocalDateTime fromDate = currentDate.minusYears(ageFrom).plusDays(1);
-                predicates.add(criteriaBuilder.lessThan(root.get("birthDate"), fromDate));
+                ZonedDateTime currentDate = ZonedDateTime.now();
+                ZonedDateTime fromDate = currentDate.minusYears(ageFrom);
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("birthDate"), fromDate));
             }
 
             if (ageTo != null) {
-                LocalDateTime currentDate = LocalDateTime.now();
-                LocalDateTime toDate = currentDate.minusYears(ageTo);
+                ZonedDateTime currentDate = ZonedDateTime.now();
+                ZonedDateTime toDate = currentDate.minusYears(ageTo).plusDays(1);
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("birthDate"), toDate));
             }
 
