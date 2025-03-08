@@ -300,7 +300,7 @@ public class AccountServiceImpl implements AccountService {
                     spec = spec.and(AccountSpecifications.byIds(ids2));
                 }
                 if (firstName != null) {
-                    spec = spec.and(AccountSpecifications.byFirstName(firstName));
+                    spec = spec.and(AccountSpecifications.byFirstName(firstName.trim()));
                 }
                 try {
                     return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
@@ -343,10 +343,10 @@ public class AccountServiceImpl implements AccountService {
             spec = spec.and(AccountSpecifications.byIds(ids));
         }
         if (firstName != null) {
-            spec = spec.and(AccountSpecifications.byFirstName(firstName));
+            spec = spec.and(AccountSpecifications.byFirstName(firstName.trim()));
         }
         if (lastName != null) {
-            spec = spec.and(AccountSpecifications.byLastName(lastName));
+            spec = spec.and(AccountSpecifications.byLastName(lastName.trim()));
         }
         if (country != null) {
             spec = spec.and(AccountSpecifications.byCountry(country));
