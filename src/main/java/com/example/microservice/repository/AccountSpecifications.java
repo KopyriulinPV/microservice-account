@@ -26,13 +26,13 @@ public class AccountSpecifications {
 
             if (ageFrom != null) {
                 LocalDateTime currentDate = LocalDateTime.now();
-                LocalDateTime fromDate = currentDate.minusYears(ageFrom).withDayOfYear(1); // Начало года
+                LocalDateTime fromDate = currentDate.minusYears(ageFrom); // Начало года
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("birthDate"), fromDate));
             }
 
             if (ageTo != null) {
                 LocalDateTime currentDate = LocalDateTime.now();
-                LocalDateTime toDate = currentDate.minusYears(ageTo).withDayOfYear(1).plusYears(1).minusDays(1); // Конец года
+                LocalDateTime toDate = currentDate.minusYears(ageTo); // Конец года
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("birthDate"), toDate));
             }
 
