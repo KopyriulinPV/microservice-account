@@ -113,7 +113,7 @@ public class AccountController {
 
 
     @GetMapping("/search")
-    /*@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")*/
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public Page<Account> searchAccounts(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,
             @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
@@ -140,7 +140,7 @@ public class AccountController {
     }
 
     @GetMapping("/search/statusCode")
-    /*@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")*/
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public Page<Account> searchByStatusCode(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,
             @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,

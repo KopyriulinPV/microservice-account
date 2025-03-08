@@ -279,7 +279,7 @@ public class AccountServiceImpl implements AccountService {
 
 
         if (statusCode != null && ((statusCode.equals("FRIEND")) || statusCode.equals("REQUEST_FROM") ||
-                statusCode.equals("REQUEST_TO"))) {
+                statusCode.equals("REQUEST_TO") || statusCode.equals("BLOCKED"))) {
             String baseUrl = new String();
             switch (statusCode) {
                 case "FRIEND":
@@ -290,6 +290,9 @@ public class AccountServiceImpl implements AccountService {
                     break;
                 case "REQUEST_TO":
                     baseUrl = "http://89.111.155.206:8765/api/v1/friends?statusCode=REQUEST_TO&size=1000000";
+                    break;
+                case "BLOCKED":
+                    baseUrl = "http://89.111.155.206:8765/api/v1/friends?statusCode=BLOCKED&size=1000000";
                     break;
             }
             System.out.println("55555555555555555555555555555555555555555555555555555555555555555555555555555");
