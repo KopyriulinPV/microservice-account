@@ -266,7 +266,7 @@ public class AccountServiceImpl implements AccountService {
                     spec = spec.and(AccountSpecifications.byIsDeleted(deleted));
                 }
                 try {
-                    return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
+                    return accountRepository.findAll(spec, PageRequest.of(page, size));
                 } catch (DataAccessException e) {
                     log.error("Error while finding accounts: {}", e.getMessage());
                     throw new RuntimeException("Ошибка при поиске аккаунтов. Пожалуйста, попробуйте позже.");
@@ -306,7 +306,7 @@ public class AccountServiceImpl implements AccountService {
                     spec = spec.and(AccountSpecifications.byFirstName(firstName.trim()));
                 }
                 try {
-                    return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
+                    return accountRepository.findAll(spec, PageRequest.of(page, size));
                 } catch (DataAccessException e) {
                     log.error("Error while finding accounts: {}", e.getMessage());
                     throw new RuntimeException("Ошибка при поиске аккаунтов. Пожалуйста, попробуйте позже.");
@@ -330,7 +330,7 @@ public class AccountServiceImpl implements AccountService {
                     spec = spec.and(AccountSpecifications.byIsDeleted(deleted));
                 }
                 try {
-                    return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
+                    return accountRepository.findAll(spec, PageRequest.of(page, size));
                 } catch (DataAccessException e) {
                     log.error("Error while finding accounts: {}", e.getMessage());
                     throw new RuntimeException("Ошибка при поиске аккаунтов. Пожалуйста, попробуйте позже.");
@@ -361,7 +361,7 @@ public class AccountServiceImpl implements AccountService {
             spec = spec.and(AccountSpecifications.byAgeRange(ageFrom, ageTo));
         }
         try {
-            return accountRepository.findAll(spec, PageRequest.of(page - 1, size));
+            return accountRepository.findAll(spec, PageRequest.of(page, size));
         } catch (DataAccessException e) {
             log.error("Error while finding accounts: {}", e.getMessage());
             throw new RuntimeException("Ошибка при поиске аккаунтов. Пожалуйста, попробуйте позже.");

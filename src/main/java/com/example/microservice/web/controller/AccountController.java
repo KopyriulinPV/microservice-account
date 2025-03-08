@@ -117,7 +117,7 @@ public class AccountController {
     public Page<Account> searchAccounts(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,
             @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
-            @RequestParam(name = "page", defaultValue = "1", required = false) Integer page,
+            @RequestParam(name = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(name = "isDeleted", required = false) Boolean isDeleted,
             @RequestParam(name = "ids", required = false) String ids,
             @RequestParam(name = "firstName", required = false) String firstName,
@@ -144,7 +144,7 @@ public class AccountController {
     public Page<Account> searchByStatusCode(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,
             @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
-            @RequestParam(name = "page", defaultValue = "1", required = false) Integer page,
+            @RequestParam(name = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(name = "isDeleted", required = false) Boolean isDeleted,
             @RequestParam(name = "ids", required = false) String ids,
             @RequestParam(name = "firstName", required = false) String firstName,
