@@ -8,6 +8,7 @@ import com.example.microservice.model.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -259,14 +260,6 @@ public interface AccountMapper {
         return account;
     }
 
-    /*RegistrationEvent AccountMeDtoToRegistrationEvent(AccountMeDto accountMeDto);
-
-    default AccountListResponse accountListToAccountListResponse(List<Account> accountList) {
-        AccountListResponse response = new AccountListResponse();
-        response.setNews(accountList.stream().map(this::accountToAccountResponseDto).collect(Collectors.toList()));
-        return response;
-    }*/
-
     default Account registrationEventToAccount(RegistrationEvent registrationEvent) {
         Account account = new Account();
         account.setId(UUID.fromString(registrationEvent.getId()));
@@ -294,4 +287,29 @@ public interface AccountMapper {
                 .collect(Collectors.toSet()));
         return registrationEvent;
     }
+
+    default AccountPageResponse accountsToAccountPageResponse(Page<Account> accounts) {
+        AccountPageResponse response = new AccountPageResponse();
+        response.setContent(accounts.getContent());
+        response.setEmpty(accounts.isEmpty());
+        response.setFirst(accounts.isFirst());
+        response.setLast(accounts.isLast());
+        response.setNumberOfElements(accounts.getNumberOfElements());
+        response.setTotalElements(accounts.getTotalElements());
+        response.setTotalPages(accounts.getTotalPages());
+        response.setSize(accounts.getSize());
+        response.setNumber(accounts.getNumber());
+
+        PageableDto pageableDto = new PageableDto();
+        pageableDto.setOffset(accounts.getPageable().getOffset());
+        pageableDto.setPageNumber(accounts.getPageable().getPageNumber());
+        pageableDto.setPageSize(accounts.getPageable().getPageSize());
+        pageableDto.setPaged(accounts.getPageable().isPaged());
+        pageableDto.setUnpaged(accounts.getPageable().isUnpaged());
+
+        response.setPageable(pageableDto);
+
+        return response;
+    }
+
 }

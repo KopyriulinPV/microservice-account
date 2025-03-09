@@ -1,26 +1,16 @@
 package com.example.microservice.service.impl;
 
-import ch.qos.logback.core.joran.conditional.IfAction;
-import com.example.EventKafkaProducer;
-import com.example.KafkaProperties;
 import com.example.RegistrationEvent;
-import com.example.microservice.dto.AccountResponseDto;
-import com.example.microservice.dto.FriendShortDto;
 import com.example.microservice.service.AccountService;
 import com.example.microservice.mapper.AccountMapper;
 import com.example.microservice.repository.AccountSpecifications;
 import lombok.RequiredArgsConstructor;
-import com.example.microservice.dto.AccountFilter;
 import com.example.microservice.model.Account;
 import com.example.microservice.repository.AccountRepository;
-import com.example.microservice.repository.AccountSpecification;
 import com.example.microservice.utils.BeanUtils;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.common.protocol.types.Field;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -32,10 +22,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import org.json.JSONArray;
