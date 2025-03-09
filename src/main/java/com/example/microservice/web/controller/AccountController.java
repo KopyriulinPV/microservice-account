@@ -116,7 +116,7 @@ public class AccountController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public AccountPageResponse searchAccounts(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,
-            @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
+            @RequestParam(name = "size", defaultValue = "1", required = false) Integer size,
             @RequestParam(name = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(name = "isDeleted", required = false) Boolean isDeleted,
             @RequestParam(name = "ids", required = false) String ids,
@@ -142,9 +142,9 @@ public class AccountController {
 
     @GetMapping("/search/statusCode")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
-    public Page<Account> searchByStatusCode(
+    public AccountPageResponse searchByStatusCode(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,
-            @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
+            @RequestParam(name = "size", defaultValue = "1", required = false) Integer size,
             @RequestParam(name = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(name = "isDeleted", required = false) Boolean isDeleted,
             @RequestParam(name = "ids", required = false) String ids,
@@ -164,8 +164,10 @@ public class AccountController {
             @RequestParam(name = "showFriends", required = false) Boolean showFriends
     ) {
 
-        return accountService.findAccounts(authorizationHeader, unknownParam1, unknownParam2, unknownParam3, unknownParam4, unknownParam5, size, page, isDeleted, ids, firstName, lastName, author,
-                country, city, ageFrom, ageTo, statusCode, showFriends);
+        return accountMapper.accountsToAccountPageResponse(accountService.findAccounts(authorizationHeader,
+                unknownParam1, unknownParam2, unknownParam3, unknownParam4, unknownParam5, size, page,
+                isDeleted, ids, firstName, lastName, author, country, city, ageFrom, ageTo,
+                statusCode, showFriends));
     }
 
 }
