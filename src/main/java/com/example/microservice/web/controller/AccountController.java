@@ -116,7 +116,7 @@ public class AccountController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public AccountPageResponse searchAccounts(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,
-            @RequestParam(name = "size", defaultValue = "1", required = false) Integer size,
+            @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
             @RequestParam(name = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(name = "isDeleted", required = false) Boolean isDeleted,
             @RequestParam(name = "ids", required = false) String ids,
@@ -144,7 +144,7 @@ public class AccountController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public AccountPageResponse searchByStatusCode(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,
-            @RequestParam(name = "size", defaultValue = "1", required = false) Integer size,
+            @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
             @RequestParam(name = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(name = "isDeleted", required = false) Boolean isDeleted,
             @RequestParam(name = "ids", required = false) String ids,
