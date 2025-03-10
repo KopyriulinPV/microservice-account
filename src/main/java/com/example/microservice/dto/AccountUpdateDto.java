@@ -2,7 +2,6 @@ package com.example.microservice.dto;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor

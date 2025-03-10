@@ -11,8 +11,6 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -35,8 +33,6 @@ public class RegistrationUserListener {
                         @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                         @Header(KafkaHeaders.RECEIVED_PARTITION) Integer partition,
                         @Header(KafkaHeaders.RECEIVED_TIMESTAMP) Long timestamp) {
-        System.out.println("9999999999999999999999999999999999999999999999999999999999999999999" + registrationEvent.getEmail());
-        log.info("Key: {}; Partition: {}; Topic: {}; Timestamp: {}", key, partition, topic, timestamp);
 
         Account account = accountMapper.registrationEventToAccount(registrationEvent);
         account.setDeleted(false);

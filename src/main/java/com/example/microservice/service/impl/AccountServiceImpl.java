@@ -22,7 +22,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
 import java.time.ZonedDateTime;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -190,9 +189,7 @@ public class AccountServiceImpl implements AccountService {
                 String[] parts = unknownParam.split("=", 2);
                 if (parts.length == 2) {
                     String paramName = parts[0];
-                    System.out.println(paramName);
                     String paramValue = parts[1];
-                    System.out.println(paramValue);
                     switch (paramName) {
                         case "size":
                             size = Integer.valueOf(paramValue);
@@ -290,7 +287,7 @@ public class AccountServiceImpl implements AccountService {
                     baseUrl = "http://89.111.155.206:8765/api/v1/friends?statusCode=WATCHING&size=1000000";
                     break;
             }
-            System.out.println("55555555555555555555555555555555555555555555555555555555555555555555555555555");
+
             try {
                 String ids2 = getIdsFromMsFriends(baseUrl, authorizationHeader);
                 Specification<Account> spec = Specification.where(null);
@@ -307,8 +304,7 @@ public class AccountServiceImpl implements AccountService {
                     throw new RuntimeException("Ошибка при поиске аккаунтов. Пожалуйста, попробуйте позже.");
                 }
             } catch (Exception e) {
-                log.error("Error while fetching account by statusCode FRIEND 6666666666666666666666666666666666666666666666666666666666666666666666666666666666: {}", e.getMessage());
-                throw new RuntimeException("Ошибка при получении аккаунтов по статусу FRIEND. Пожалуйста, попробуйте позже.");
+                throw new RuntimeException("Ошибка при получении аккаунтов по статусу. Пожалуйста, попробуйте позже.");
             }
 
         }
@@ -377,13 +373,11 @@ public class AccountServiceImpl implements AccountService {
         for (int i = 0; i < contentArray.length(); i++) {
             JSONObject friendObject = contentArray.getJSONObject(i);
             String friendId = friendObject.getString("friendId");
-            System.out.println(friendId);
             ids2.append(friendId);
             if (i < contentArray.length() - 1) {
                 ids2.append(",");
             }
         }
-        System.out.println(ids2);
         return ids2.toString();
     }
 }

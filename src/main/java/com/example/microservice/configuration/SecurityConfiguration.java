@@ -66,13 +66,4 @@ public class SecurityConfiguration {
     }
 }
 
-/*http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/account").permitAll()
-                        .requestMatchers("/api/v1/account/lastAction/**").permitAll()
-                        .requestMatchers("/api/v1/account/{id}").permitAll()
-                        .requestMatchers("/api/v1/account/total").permitAll()
-                        .requestMatchers("/api/v1/account/search/**").permitAll()
-                        .requestMatchers("/api/v1/account/search").permitAll()
-                        .requestMatchers("/api/v1/account/search2/**").permitAll()
-                        .requestMatchers("/api/v1/account/search2").permitAll()
-                        .anyRequest().authenticated()
-                )    */
+

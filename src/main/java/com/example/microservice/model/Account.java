@@ -2,8 +2,6 @@ package com.example.microservice.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Set;
 import java.util.UUID;
@@ -51,7 +49,6 @@ public class Account {
     @Column(name = "country")
     private String country;
 
-    //Не используется
     @Column(name = "status_code")
     private String statusCode;
 
@@ -61,7 +58,6 @@ public class Account {
     @Column(name = "birth_date")
     private ZonedDateTime birthDate;
 
-    //Не используется
     @Column(name = "message_permission")
     private String messagePermission;
 
@@ -83,7 +79,6 @@ public class Account {
     @Column(name = "deleted")
     private Boolean deleted;
 
-    //Не используется
     @Column(name = "blocked")
     private Boolean blocked;
 

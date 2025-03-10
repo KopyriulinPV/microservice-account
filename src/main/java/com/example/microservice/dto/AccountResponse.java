@@ -1,7 +1,7 @@
 package com.example.microservice.dto;
 
 import com.example.microservice.model.Role;
-import jakarta.persistence.*;
+
 import lombok.*;
 
 import java.time.ZonedDateTime;

@@ -1,20 +1,14 @@
 package com.example.microservice.mapper;
 
-
 import com.example.RegistrationEvent;
 import com.example.microservice.dto.*;
 import com.example.microservice.model.Account;
 import com.example.microservice.model.Role;
-import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.data.domain.Page;
-
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 

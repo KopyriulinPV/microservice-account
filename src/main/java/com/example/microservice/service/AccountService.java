@@ -1,12 +1,9 @@
 package com.example.microservice.service;
 
-import com.example.microservice.dto.AccountFilter;
 import com.example.microservice.model.Account;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.List;
 import java.util.UUID;
 
 public interface AccountService {

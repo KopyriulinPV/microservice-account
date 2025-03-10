@@ -1,7 +1,6 @@
 package com.example.microservice.dto;
 
 import lombok.*;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Data
 @AllArgsConstructor

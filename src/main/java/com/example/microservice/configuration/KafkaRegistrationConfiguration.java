@@ -1,6 +1,5 @@
 package com.example.microservice.configuration;
 
-import com.example.EventKafkaProducer;
 import com.example.KafkaMessage;
 import com.example.KafkaProperties;
 import com.example.RegistrationEvent;

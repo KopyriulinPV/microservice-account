@@ -40,9 +40,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        log.info("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
-        log.info("вошел в JwtTokenFilter");
-
 
         try {
             String token = getToken(request);
@@ -79,17 +76,16 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     public boolean validateTokenWithAuthService(String token) {
         try {
             String authServiceUrl = String.format("%s%s", baseUrlForCheckRequestToken, token);
-            // Отправляем запрос для проверки токена
             Boolean response = webClient.post()
                     .uri(authServiceUrl)
                     .header("Authorization", "Bearer " + token) // Если сервис требует токен в заголовке
                     .retrieve()
                     .bodyToMono(Boolean.class)
-                    .block(); // Синхронное выполнение запроса
+                    .block();
 
             return response != null && response;
         } catch (Exception e) {
-            return false; // Если произошла ошибка, токен считается невалидным
+            return false;
         }
     }
 

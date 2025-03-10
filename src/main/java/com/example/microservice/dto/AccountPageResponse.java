@@ -2,7 +2,6 @@ package com.example.microservice.dto;
 
 import com.example.microservice.model.Account;
 import lombok.Data;
-
 import java.util.List;
 
 @Data
