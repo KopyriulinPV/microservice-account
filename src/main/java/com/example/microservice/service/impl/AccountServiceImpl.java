@@ -287,7 +287,7 @@ public class AccountServiceImpl implements AccountService {
                     baseUrl = "http://89.111.155.206:8765/api/v1/friends?statusCode=SUBSCRIBED&size=1000000";
                     break;
                 case "WATCHING":
-                    baseUrl = "http://89.111.155.206:8765/api/v1/friends?statusCode=SUBSCRIBED&size=1000000";
+                    baseUrl = "http://89.111.155.206:8765/api/v1/friends?statusCode=WATCHING&size=1000000";
                     break;
             }
             System.out.println("55555555555555555555555555555555555555555555555555555555555555555555555555555");
