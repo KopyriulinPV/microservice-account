@@ -267,7 +267,8 @@ public class AccountServiceImpl implements AccountService {
 
 
         if (statusCode != null && ((statusCode.equals("FRIEND")) || statusCode.equals("REQUEST_FROM") ||
-                statusCode.equals("REQUEST_TO") || statusCode.equals("BLOCKED"))) {
+                statusCode.equals("REQUEST_TO") || statusCode.equals("BLOCKED") || statusCode.equals("SUBSCRIBED")
+                || statusCode.equals("WATCHING"))) {
             String baseUrl = new String();
             switch (statusCode) {
                 case "FRIEND":
@@ -281,6 +282,12 @@ public class AccountServiceImpl implements AccountService {
                     break;
                 case "BLOCKED":
                     baseUrl = "http://89.111.155.206:8765/api/v1/friends?statusCode=BLOCKED&size=1000000";
+                    break;
+                case "SUBSCRIBED":
+                    baseUrl = "http://89.111.155.206:8765/api/v1/friends?statusCode=SUBSCRIBED&size=1000000";
+                    break;
+                case "WATCHING":
+                    baseUrl = "http://89.111.155.206:8765/api/v1/friends?statusCode=SUBSCRIBED&size=1000000";
                     break;
             }
             System.out.println("55555555555555555555555555555555555555555555555555555555555555555555555555555");
